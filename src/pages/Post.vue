@@ -86,11 +86,7 @@ const submit = async () => {
         <input type="file" class="sr-only" />
         上傳圖片
       </label>
-      <img
-        src="../static/images/dynamic-wall/post-photo@2x.png"
-        alt="post photo"
-        class="mt-4"
-      />
+      <img src="" alt="post photo" class="mt-4" />
     </template>
     <p
       v-if="error"
