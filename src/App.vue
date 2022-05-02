@@ -29,7 +29,7 @@ watch(
         </h1>
         <div class="group flex items-center py-4 lg:relative lg:py-3">
           <img
-            src="@/assets/images/dynamic-wall/user.png"
+            src="./assets/images/dynamic-wall/user.png"
             alt="avatar"
             class="mr-[10px] h-[30px] w-[30px] flex-shrink-0 object-cover"
           />
@@ -104,7 +104,7 @@ watch(
               class="block text-black-100 hover:text-primary"
             >
               <img
-                src="@/assets/images/dynamic-wall/user.png"
+                src="./assets/images/dynamic-wall/user.png"
                 alt="avatar"
                 class="mr-3 inline-block h-[50px] w-[50px] object-cover"
               />

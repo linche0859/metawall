@@ -1,5 +1,5 @@
 <script setup>
-import { dayFormat } from '@/plugins/day'
+import { dayFormat } from '../../plugins/day'
 
 const props = defineProps({
   post: {
@@ -61,7 +61,7 @@ const user = props.post.user[0]
       </button>
       <div class="hidden lg:mt-[18px] lg:flex lg:items-center">
         <img
-          src="@/assets/images/dynamic-wall/user.png"
+          src="../../assets/images/dynamic-wall/user.png"
           alt="avatar"
           class="mr-2 h-10 w-10 flex-shrink-0 object-cover"
         />
@@ -91,7 +91,7 @@ const user = props.post.user[0]
       <ul class="hidden lg:mt-[18px] lg:block lg:space-y-4">
         <li class="flex rounded-[12px] bg-[#EFECE7]/30 py-[18px] px-4">
           <img
-            src="@/assets/images/dynamic-wall/user.png"
+            src="../../assets/images/dynamic-wall/user.png"
             alt="avatar"
             class="mr-3 h-10 w-10 flex-shrink-0 object-cover"
           />
@@ -109,7 +109,7 @@ const user = props.post.user[0]
         </li>
         <li class="flex rounded-[12px] bg-[#EFECE7]/30 py-[18px] px-4">
           <img
-            src="@/assets/images/dynamic-wall/user.png"
+            src="../../assets/images/dynamic-wall/user.png"
             alt="avatar"
             class="mr-3 h-10 w-10 flex-shrink-0 object-cover"
           />

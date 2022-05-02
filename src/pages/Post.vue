@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { postOnePost } from '@/apis/post'
-import { getErrorContent } from '@/utils/response'
-import swal from '@/plugins/swal'
+import { postOnePost } from '../apis/post'
+import { getErrorContent } from '../utils/response'
+import swal from '../plugins/swal'
 
 const loading = ref(false)
 const content = ref('')

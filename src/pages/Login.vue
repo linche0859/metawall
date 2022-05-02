@@ -7,7 +7,7 @@
       style="box-shadow: -8px 8px 0px #00040029"
     >
       <img
-        src="@/assets/images/login/social-circle.png"
+        src="../assets/images/login/social-circle.png"
         alt="social circle"
         class="mr-[50px] flex-shrink-0"
       />
