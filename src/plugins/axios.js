@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'https://nodejs-the-week4.herokuapp.com'
+  baseURL: import.meta.env.VITE_API_URL
 })
 
 instance.interceptors.request.use(

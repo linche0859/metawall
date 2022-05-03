@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
-import PostCard from '../components/cards/PostCard.vue'
-import { getPosts } from '../apis/post'
+import PostCard from '@/components/cards/PostCard.vue'
+import { getPosts } from '@/apis/post'
 
 const loading = ref(true)
 const sort = ref('desc')

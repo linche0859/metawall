@@ -1,33 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
   {
     path: '/',
     name: 'Index',
-    component: () => import('../pages/Index.vue')
+    component: () => import('@/pages/Index.vue')
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../pages/Login.vue')
+    component: () => import('@/pages/Login.vue')
   },
   {
     path: '/post',
     name: 'Post',
-    component: () => import('../pages/Post.vue')
+    component: () => import('@/pages/Post.vue')
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('../pages/NotFound.vue')
+    component: () => import('@/pages/NotFound.vue')
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(
-    import.meta.env.MODE === 'production' ? '/metawall/' : '/'
-  ),
+  history: createWebHistory(import.meta.env.VITE_PUBLISH_PATH),
   routes
 })
 

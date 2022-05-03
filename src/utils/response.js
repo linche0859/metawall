@@ -7,8 +7,8 @@ export const getErrorContent = (error) => {
   if (typeof error === 'string') return error
   if (typeof error === 'object') {
     const { errors } = error
-    const errorVals = Object.values(errors)
-    if (errorVals.length) return errorVals[0].message
+    const errorValues = Object.values(errors)
+    if (errorValues.length) return errorValues[0].message
   }
   return error
 }

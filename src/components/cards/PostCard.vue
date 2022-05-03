@@ -1,5 +1,5 @@
 <script setup>
-import { dayFormat } from '../../plugins/day'
+import { dayFormat } from '@/plugins/day'
 
 const props = defineProps({
   post: {

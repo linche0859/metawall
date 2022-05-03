@@ -1,4 +1,4 @@
-import axios from '../plugins/axios'
+import axios from '@/plugins/axios'
 
 /**
  * 取得貼文
