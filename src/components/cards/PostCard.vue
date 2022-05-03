@@ -8,7 +8,7 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['loaded-error-image'])
-const user = props.post.user[0]
+const { user } = props.post
 </script>
 
 <template>
