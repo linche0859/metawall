@@ -8,5 +8,5 @@ import Swal from 'sweetalert2'
  * @param {string} confirmButtonText
  */
 export default (option = {}) => {
-  Swal.fire(option)
+  Swal.fire({ confirmButtonColor: '#03438D', ...option })
 }
