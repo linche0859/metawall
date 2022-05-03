@@ -38,7 +38,8 @@ const submit = async () => {
     swal({
       title: '新增貼文成功',
       icon: 'success',
-      confirmButtonText: '確定'
+      confirmButtonText: '確定',
+      timer: 1500
     })
   } catch (e) {
     const message = getErrorContent(e.message)
