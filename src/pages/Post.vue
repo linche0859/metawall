@@ -3,11 +3,14 @@ import { ref } from 'vue'
 import { postOnePost } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
 import swal from '@/plugins/swal'
+// import globalData from '@/compatibles/data'
 
 const loading = ref(false)
 const content = ref('')
 const image = ref('')
 const error = ref('')
+// const { user } = globalData()
+// console.log(user)
 
 /**
  * 驗證圖片格式

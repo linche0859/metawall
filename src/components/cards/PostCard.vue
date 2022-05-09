@@ -1,5 +1,6 @@
 <script setup>
 import { dayFormat } from '@/plugins/day'
+import { handleErrorAvatar } from '@/compatibles/method'
 
 const props = defineProps({
   post: {
@@ -18,6 +19,7 @@ const { user } = props.post
         :src="user.avatar"
         alt="avatar"
         class="mr-4 h-[45px] w-[45px] flex-shrink-0 rounded-full object-cover"
+        @error="handleErrorAvatar"
       />
       <div class="flex-grow">
         <a

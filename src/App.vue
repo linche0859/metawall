@@ -1,10 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import globalData from '@/compatibles/data'
+import { handleErrorAvatar } from '@/compatibles/method'
 
 const noLayoutRoutes = ['Login', 'Register', 'NotFound']
 const route = useRoute()
 const showLayout = ref(false)
+const { user } = globalData()
 
 watch(
   () => route.name,
@@ -29,14 +32,15 @@ watch(
         </h1>
         <div class="group flex items-center py-4 lg:relative lg:py-3">
           <img
-            src="./assets/images/dynamic-wall/user.png"
+            :src="user.avatar"
             alt="avatar"
             class="mr-[10px] h-[30px] w-[30px] flex-shrink-0 object-cover"
+            @error="handleErrorAvatar"
           />
           <div
             class="border-b-2 border-black-100 px-1 pb-1 font-azeret font-bold leading-[19px] text-black-100"
           >
-            Member
+            {{ user.name }}
           </div>
           <div
             class="hidden lg:absolute lg:-left-1 lg:top-[calc(100%-8px)] lg:isolate lg:w-[182px] lg:group-hover:block"
@@ -62,12 +66,15 @@ watch(
                 >
               </li>
               <li>
-                <a href="./login.html" class="block py-2 hover:bg-[#EFECE7]"
-                  >登出</a
+                <router-link
+                  :to="{ name: 'Login' }"
+                  class="block py-2 hover:bg-[#EFECE7]"
+                  @click="logout"
                 >
+                  登出
+                </router-link>
               </li>
             </ul>
-            <div></div>
           </div>
         </div>
       </div>
@@ -104,11 +111,12 @@ watch(
               class="block text-black-100 hover:text-primary"
             >
               <img
-                src="./assets/images/dynamic-wall/user.png"
+                :src="user.avatar"
                 alt="avatar"
                 class="mr-3 inline-block h-[50px] w-[50px] object-cover"
+                @error="handleErrorAvatar"
               />
-              <span class="align-middle font-bold">邊緣小杰</span>
+              <span class="align-middle font-bold">{{ user.name }}</span>
             </a>
           </li>
           <li>
