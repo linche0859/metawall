@@ -1,0 +1,1 @@
+import{o as n,c as s}from"./index.bcb7ec33.js";var a=(t,e)=>{const o=t.__vccOpts||t;for(const[c,r]of e)o[c]=r;return o};const _={},f={class:"text-4xl"};function l(t,e){return n(),s("h2",f,"404")}var p=a(_,[["render",l]]);export{p as default};
