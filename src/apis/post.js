@@ -13,4 +13,4 @@ export const getPosts = (params) => axios.get('/posts', { params })
  * @param {object} payload 貼文資料
  * @returns {promise}
  */
-export const postOnePost = (payload) => axios.post('/posts', payload)
+export const postOnePost = (payload) => axios.post('/post', payload)
