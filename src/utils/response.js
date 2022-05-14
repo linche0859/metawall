@@ -6,9 +6,7 @@
 export const getErrorContent = (error) => {
   if (typeof error === 'string') return error
   if (typeof error === 'object') {
-    const { errors } = error
-    const errorValues = Object.values(errors)
-    if (errorValues.length) return errorValues[0].message
+    return Object.values(error)?.[0] ?? '發生錯誤，請重新嘗試'
   }
   return error
 }

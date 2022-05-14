@@ -15,7 +15,7 @@ export const authBeforeEnter = async (to, from) => {
     user.value = data
 
     if (!user.value.avatar) {
-      user.value.avatar = 'https://i.imgur.com/dRiYtOm.png'
+      user.value.avatar = 'https://i.imgur.com/nJWDEZP.png'
     }
   } catch (e) {
     return { name: 'Login' }

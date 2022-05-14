@@ -16,5 +16,5 @@ export const clearUserInfo = () => {
  * @param {object} e image
  */
 export const handleErrorAvatar = (e) => {
-  e.target.src = 'https://i.imgur.com/dRiYtOm.png'
+  e.target.src = 'https://i.imgur.com/nJWDEZP.png'
 }

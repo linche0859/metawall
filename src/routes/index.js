@@ -19,6 +19,12 @@ const routes = [
     component: () => import('@/pages/Register.vue')
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('@/pages/Profile.vue'),
+    beforeEnter: authBeforeEnter
+  },
+  {
     path: '/post',
     name: 'Post',
     component: () => import('@/pages/Post.vue'),

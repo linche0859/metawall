@@ -59,10 +59,10 @@ watch(
                 >
               </li>
               <li>
-                <a
-                  href="./modify-personal-info.html"
+                <router-link
+                  :to="{ name: 'Profile' }"
                   class="block py-2 hover:bg-[#EFECE7]"
-                  >修改個人資料</a
+                  >修改個人資料</router-link
                 >
               </li>
               <li>

@@ -8,5 +8,12 @@ import Swal from 'sweetalert2'
  * @param {string} confirmButtonText
  */
 export default (option = {}) => {
-  Swal.fire({ confirmButtonColor: '#03438D', ...option })
+  const currentOption = {
+    icon: 'success',
+    confirmButtonText: '確定',
+    timer: 1500,
+    confirmButtonColor: '#03438D'
+  }
+  Object.assign(currentOption, option)
+  Swal.fire(currentOption)
 }
