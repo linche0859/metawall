@@ -1,5 +1,5 @@
 import { useCookies } from '@vueuse/integrations/useCookies'
-import { getMe } from '@/apis/user'
+import { getProfile } from '@/apis/user'
 import globalData from '@/compatibles/data'
 
 export const authBeforeEnter = async (to, from) => {
@@ -11,7 +11,7 @@ export const authBeforeEnter = async (to, from) => {
     const { user } = globalData()
     if (user.value._id) return true
 
-    const { data } = await getMe()
+    const { data } = await getProfile()
     user.value = data
 
     if (!user.value.avatar) {
