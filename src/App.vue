@@ -30,7 +30,7 @@ watch(
             >MetaWall
           </router-link>
         </h1>
-        <div class="group flex items-center py-4 lg:relative lg:py-3">
+        <div class="group relative flex items-center py-4 lg:py-3">
           <img
             :src="user.avatar"
             alt="avatar"
@@ -43,7 +43,7 @@ watch(
             {{ user.name }}
           </div>
           <div
-            class="hidden lg:absolute lg:-left-1 lg:top-[calc(100%-8px)] lg:isolate lg:w-[182px] lg:group-hover:block"
+            class="absolute right-0 top-[calc(100%-8px)] isolate z-[1] hidden w-[182px] group-hover:block lg:right-auto lg:-left-1"
           >
             <div
               class="absolute top-2 left-2 z-[-1] h-full w-full border-2 border-black-100 bg-white"
