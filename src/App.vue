@@ -132,8 +132,8 @@ watch(
             </a>
           </li>
           <li>
-            <a
-              href="./liked-posts.html"
+            <router-link
+              :to="{ name: 'Like' }"
               class="group block text-black-100 hover:text-primary"
             >
               <span
@@ -142,7 +142,7 @@ watch(
                 <i class="fa-regular fa-thumbs-up"></i>
               </span>
               <span class="hidden font-bold lg:inline">我按讚的文章</span>
-            </a>
+            </router-link>
           </li>
           <li class="lg:hidden">
             <router-link

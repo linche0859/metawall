@@ -9,6 +9,12 @@ import axios from '@/plugins/axios'
 export const getPosts = (params) => axios.get('/posts', { params })
 
 /**
+ * 取得按讚的貼文
+ * @returns {promise}
+ */
+export const getLikedPosts = () => axios.get('/posts/like')
+
+/**
  * 新增貼文
  * @param {object} payload 貼文資料
  * @returns {promise}

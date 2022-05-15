@@ -115,7 +115,7 @@ const messageHandler = async () => {
       class="mt-4 text-xl leading-none text-gray-300"
       @click="postLikeHandler"
     >
-      <i class="fa-regular fa-thumbs-up"></i>
+      <i class="fa-regular fa-thumbs-up mr-1"></i>
       <span class="inline-block text-base leading-[22px]"
         >成為第一個按讚的朋友</span
       >

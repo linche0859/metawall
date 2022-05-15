@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import { getPosts } from '@/apis/post'
 import globalData from '@/compatibles/data'
 import PostCard from '@/components/cards/PostCard.vue'
+import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
 
 const loading = ref(true)
 const sort = ref('desc')
@@ -14,10 +15,13 @@ const { user } = globalData()
  * 設置貼文列表
  */
 const setPosts = async () => {
-  loading.value = true
-  const { data } = await getPosts({ sort: sort.value, q: searchValue.value })
-  posts.value = data
-  loading.value = false
+  try {
+    loading.value = true
+    const { data } = await getPosts({ sort: sort.value, q: searchValue.value })
+    posts.value = data
+  } finally {
+    loading.value = false
+  }
 }
 /**
  * 按讚貼文
@@ -84,7 +88,7 @@ setPosts()
       </Button>
     </div>
   </div>
-  <template v-if="loading"> 載入中... </template>
+  <empty-post-card v-if="loading">載入中...</empty-post-card>
   <template v-else>
     <ul v-if="posts.length" class="space-y-4">
       <PostCard
@@ -96,23 +100,6 @@ setPosts()
         @delete-like="deleteLike"
       />
     </ul>
-    <div v-else class="rounded-lg border-2 border-black-100 shadow-card">
-      <header
-        class="flex space-x-[6px] border-b-2 border-black-100 py-[19px] px-4"
-      >
-        <div
-          class="h-[9px] w-[9px] rounded-full border border-gray-400 bg-[#DE4B63]"
-        ></div>
-        <div
-          class="h-[9px] w-[9px] rounded-full border border-gray-400 bg-[#FAA722]"
-        ></div>
-        <div
-          class="h-[9px] w-[9px] rounded-full border border-gray-400 bg-[#83C51D]"
-        ></div>
-      </header>
-      <p class="py-8 text-center text-gray-300">
-        目前尚無動態，新增一則貼文吧！
-      </p>
-    </div>
+    <EmptyPostCard v-else />
   </template>
 </template>

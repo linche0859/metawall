@@ -31,6 +31,12 @@ const routes = [
     beforeEnter: authBeforeEnter
   },
   {
+    path: '/like',
+    name: 'Like',
+    component: () => import('@/pages/Like.vue'),
+    beforeEnter: authBeforeEnter
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/pages/NotFound.vue')

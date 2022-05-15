@@ -18,9 +18,12 @@ const props = defineProps({
     :class="{ 'cursor-not-allowed': props.loading }"
     :disabled="loading"
   >
+    <span :class="{ hidden: loading && useIcon }">
+      <slot></slot>
+    </span>
     <svg
       class="h-5 w-5 animate-spin text-white"
-      :class="[{ hidden: !loading }, { 'mr-3': !useIcon }]"
+      :class="[{ hidden: !loading }, { 'ml-3': !useIcon }]"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -43,8 +46,5 @@ const props = defineProps({
         style="--darkreader-inline-fill: currentColor"
       ></path>
     </svg>
-    <span :class="{ hidden: loading && useIcon }">
-      <slot></slot>
-    </span>
   </button>
 </template>
