@@ -69,7 +69,6 @@ watch(
                 <router-link
                   :to="{ name: 'Login' }"
                   class="block py-2 hover:bg-[#EFECE7]"
-                  @click="logout"
                 >
                   登出
                 </router-link>

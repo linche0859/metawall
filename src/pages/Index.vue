@@ -1,12 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { getPosts } from '@/apis/post'
+import globalData from '@/compatibles/data'
 import PostCard from '@/components/cards/PostCard.vue'
 
 const loading = ref(true)
 const sort = ref('desc')
 const searchValue = ref('')
 const posts = ref([])
+const { user } = globalData()
 
 /**
  * 設置貼文列表
@@ -17,14 +19,31 @@ const setPosts = async () => {
   posts.value = data
   loading.value = false
 }
-
 /**
- * 載入錯誤的貼文圖片
+ * 按讚貼文
  * @param {string} postId 貼文編號
  */
-const loadedErrorImage = (postId) => {
-  const post = posts.value.find((post) => post._id === postId)
-  post.image = ''
+const postLike = (postId) => {
+  const post = posts.value.find((item) => item._id === postId)
+  post.likes.push(user.value._id)
+}
+/**
+ * 移除貼文的按讚
+ * @param {string} postId 貼文編號
+ */
+const deleteLike = (postId) => {
+  const post = posts.value.find((item) => item._id === postId)
+  const index = post.likes.indexOf(user.value._id)
+  if (~index) post.likes.splice(index, 1)
+}
+/**
+ * 新增貼文留言
+ * @param {string} postId 貼文編號
+ * @param {object} message 留言資訊
+ */
+const postMessage = ({ postId, message }) => {
+  const post = posts.value.find((item) => item._id === postId)
+  post.messages.unshift(message)
 }
 
 watch(() => sort.value, setPosts)
@@ -72,7 +91,9 @@ setPosts()
         v-for="post in posts"
         :key="post._id"
         :post="post"
-        @loaded-error-image="loadedErrorImage"
+        @post-like="postLike"
+        @post-message="postMessage"
+        @delete-like="deleteLike"
       />
     </ul>
     <div v-else class="rounded-lg border-2 border-black-100 shadow-card">

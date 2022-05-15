@@ -14,3 +14,26 @@ export const getPosts = (params) => axios.get('/posts', { params })
  * @returns {promise}
  */
 export const postOnePost = (payload) => axios.post('/post', payload)
+
+/**
+ * 按讚貼文
+ * @param {string} postId 貼文編號
+ * @returns {promise}
+ */
+export const postLike = (postId) => axios.post(`/post/${postId}/like`)
+
+/**
+ * 移除貼文的按讚
+ * @param {string} postId 貼文編號
+ * @returns {promise}
+ */
+export const deleteLike = (postId) => axios.delete(`/post/${postId}/like`)
+
+/**
+ * 新增貼文留言
+ * @param {string} postId 貼文編號
+ * @param {string} payload.content 留言內容
+ * @returns {promise}
+ */
+export const postMessage = (postId, payload) =>
+  axios.post(`/post/${postId}/message`, payload)
