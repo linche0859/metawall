@@ -62,7 +62,7 @@ const submit = async () => {
   </h2>
   <form
     method="post"
-    class="rounded-lg border-2 border-black-100 p-8 shadow-card"
+    class="rounded-lg border-2 border-black-100 p-8 shadow-100"
     @submit.prevent
   >
     <label for="content" class="mb-1 inline-block text-black-100"
@@ -98,7 +98,7 @@ const submit = async () => {
       {{ error }}
     </p>
     <Button
-      class="mx-auto block w-[68.86%] rounded-lg border-2 border-black-100 bg-gray-200 font-azeret font-bold leading-[50px] text-black-100 hover:bg-yellow-100 hover:shadow-btn"
+      class="mx-auto block w-[68.86%] rounded-lg border-2 border-black-100 bg-gray-200 font-azeret font-bold leading-[50px] text-black-100 hover:bg-yellow-100 hover:shadow-200"
       :class="error ? 'mt-4' : 'mt-8'"
       :loading="loading"
       @click="submit"

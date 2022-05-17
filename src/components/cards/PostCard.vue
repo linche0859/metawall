@@ -79,7 +79,7 @@ const messageHandler = async () => {
 </script>
 
 <template>
-  <li class="rounded-lg border-2 border-black-100 p-6 shadow-card">
+  <li class="rounded-lg border-2 border-black-100 p-6 shadow-100">
     <div class="mb-4 flex items-center">
       <img
         v-img-avatar-fallback

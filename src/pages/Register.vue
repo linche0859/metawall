@@ -63,15 +63,14 @@ clearUserInfo()
 <template>
   <main class="flex min-h-screen">
     <div
-      class="m-auto flex max-w-[869px] items-center border-2 border-black-100 bg-[#EFECE7] py-[70px] px-[48px]"
-      style="box-shadow: -8px 8px 0px #00040029"
+      class="m-auto w-full max-w-[600px] border-2 border-black-100 bg-[#EFECE7] p-10 shadow-300 lg:flex lg:max-w-[869px] lg:items-center lg:py-[70px] lg:px-[48px]"
     >
       <img
         src="../assets/images/login/social-circle.png"
         alt="social circle"
-        class="mr-[50px] flex-shrink-0"
+        class="mx-auto lg:mr-[50px] lg:ml-0 lg:flex-shrink-0"
       />
-      <div class="min-w-[373px] flex-grow text-center">
+      <div class="text-center md:min-w-[373px] lg:flex-grow">
         <h1 class="font-paytone text-[60px] leading-[84px] text-primary">
           MetaWall
         </h1>

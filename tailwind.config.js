@@ -8,8 +8,9 @@ module.exports = {
       baloo: ['"Baloo Da 2"', 'sans-serif']
     },
     boxShadow: {
-      card: '0px 3px 0px #000400',
-      btn: '-2px 2px 0px #000400'
+      100: '0px 3px 0px #000400',
+      200: '-2px 2px 0px #000400',
+      300: '-8px 8px 0px #00040029'
     },
     extend: {
       colors: {

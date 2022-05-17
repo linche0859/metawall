@@ -36,7 +36,7 @@ setTracks()
       <li
         v-for="item in tracks"
         :key="item._id"
-        class="flex items-center rounded-lg border-2 border-black-100 py-[18px] px-4 shadow-card"
+        class="flex items-center rounded-lg border-2 border-black-100 py-[18px] px-4 shadow-100"
       >
         <img
           v-img-avatar-fallback

@@ -56,7 +56,7 @@ setLikes()
       <li
         v-for="item in likes"
         :key="item._id"
-        class="flex items-center rounded-lg border-2 border-black-100 py-[18px] px-4 shadow-card lg:pr-10"
+        class="flex items-center rounded-lg border-2 border-black-100 py-[18px] px-4 shadow-100 lg:pr-10"
       >
         <img
           v-img-avatar-fallback

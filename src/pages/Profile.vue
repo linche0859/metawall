@@ -105,7 +105,7 @@ const submitPasswordHandler = async () => {
   <form
     v-show="tab === 'nickname'"
     method="post"
-    class="flex flex-col items-center rounded-lg border-2 border-black-100 py-8 shadow-card"
+    class="flex flex-col items-center rounded-lg border-2 border-black-100 py-8 shadow-100"
     @submit.prevent
   >
     <img
@@ -165,7 +165,7 @@ const submitPasswordHandler = async () => {
         {{ nicknameError }}
       </p>
       <Button
-        class="w-full rounded-lg border-2 border-black-100 bg-yellow-100 font-azeret font-bold leading-[50px] text-black-100 shadow-btn hover:bg-primary hover:text-white"
+        class="w-full rounded-lg border-2 border-black-100 bg-yellow-100 font-azeret font-bold leading-[50px] text-black-100 shadow-200 hover:bg-primary hover:text-white"
         :loading="loading"
         @click="submitProfileHandler"
       >
@@ -177,7 +177,7 @@ const submitPasswordHandler = async () => {
   <form
     v-show="tab === 'password'"
     method="post"
-    class="rounded-lg border-2 border-black-100 py-8 shadow-card"
+    class="rounded-lg border-2 border-black-100 py-8 shadow-100"
     @submit.prevent
   >
     <div class="mx-auto max-w-[60.6%]">

@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-lg border-2 border-black-100 shadow-card">
+  <div class="rounded-lg border-2 border-black-100 shadow-100">
     <header
       class="flex space-x-[6px] border-b-2 border-black-100 py-[19px] px-4"
     >

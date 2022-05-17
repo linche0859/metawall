@@ -188,7 +188,7 @@ initData(userId.value)
         </div>
         <button
           v-if="!isMe"
-          class="flex-shrink-0 rounded-lg border-2 border-black-100 px-8 font-bold leading-8 text-black-100 shadow-btn"
+          class="flex-shrink-0 rounded-lg border-2 border-black-100 px-8 font-bold leading-8 text-black-100 shadow-200"
           :class="isTracked ? 'bg-secondary' : 'bg-yellow-100'"
           @click="trackHandler"
         >
