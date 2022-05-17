@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { getLikedPosts, deleteLike } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
-import { handleErrorAvatar } from '@/compatibles/method'
 import { dayFormat } from '@/plugins/day'
 import swal from '@/plugins/swal'
 import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
@@ -60,10 +59,10 @@ setLikes()
         class="flex items-center rounded-lg border-2 border-black-100 py-[18px] px-4 shadow-card lg:pr-10"
       >
         <img
+          v-img-avatar-fallback
           :src="item.user.avatar"
           alt="avatar"
           class="mr-4 h-10 w-10 flex-shrink-0 rounded-full object-cover"
-          @error="handleErrorAvatar"
         />
         <div class="flex-grow pr-5">
           <a

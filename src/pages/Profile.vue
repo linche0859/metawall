@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import globalData from '@/compatibles/data'
-import { handleErrorAvatar } from '@/compatibles/method'
 import { patchProfile, patchPassword } from '@/apis/user'
 import { getErrorContent } from '@/utils/response'
 import swal from '@/plugins/swal'
@@ -110,10 +109,10 @@ const submitPasswordHandler = async () => {
     @submit.prevent
   >
     <img
+      v-img-avatar-fallback
       :src="nicknameForm.avatar"
       alt="avatar"
       class="mb-4 h-[107px] w-[107px] rounded-full object-cover"
-      @error="handleErrorAvatar"
     />
     <label
       class="mb-11px relative cursor-pointer bg-black-100 py-1 px-6 text-white"

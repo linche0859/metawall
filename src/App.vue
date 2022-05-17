@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import globalData from '@/compatibles/data'
-import { handleErrorAvatar } from '@/compatibles/method'
 
 const noLayoutRoutes = ['Login', 'Register', 'NotFound']
 const route = useRoute()
@@ -32,10 +31,10 @@ watch(
         </h1>
         <div class="group relative flex items-center py-4 lg:py-3">
           <img
+            v-img-avatar-fallback
             :src="user.avatar"
             alt="avatar"
-            class="mr-[10px] h-[30px] w-[30px] flex-shrink-0 object-cover"
-            @error="handleErrorAvatar"
+            class="mr-[10px] h-[30px] w-[30px] flex-shrink-0 rounded-full object-cover"
           />
           <div
             class="border-b-2 border-black-100 px-1 pb-1 font-azeret font-bold leading-[19px] text-black-100"
@@ -110,10 +109,10 @@ watch(
               class="block text-black-100 hover:text-primary"
             >
               <img
+                v-img-avatar-fallback
                 :src="user.avatar"
                 alt="avatar"
-                class="mr-3 inline-block h-[50px] w-[50px] object-cover"
-                @error="handleErrorAvatar"
+                class="mr-3 inline-block h-[50px] w-[50px] rounded-full object-cover"
               />
               <span class="align-middle font-bold">{{ user.name }}</span>
             </a>

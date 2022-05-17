@@ -10,19 +10,3 @@ export const clearUserInfo = () => {
   cookies.remove('token')
   user.value = {}
 }
-
-/**
- * 載入大頭照錯誤事件
- * @param {object} e image
- */
-export const handleErrorAvatar = (e) => {
-  e.target.src = 'https://i.imgur.com/nJWDEZP.png'
-}
-
-/**
- * 載入圖片錯誤事件
- * @param {object} e image
- */
-export const handleErrorImage = (e) => {
-  e.target.src = ''
-}

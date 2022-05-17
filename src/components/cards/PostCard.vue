@@ -1,7 +1,6 @@
 <script setup>
 import { ref, toRefs } from 'vue'
 import { dayFormat } from '@/plugins/day'
-import { handleErrorAvatar, handleErrorImage } from '@/compatibles/method'
 import { postLike, deleteLike, postMessage } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
 import globalData from '@/compatibles/data'
@@ -83,10 +82,10 @@ const messageHandler = async () => {
   <li class="rounded-lg border-2 border-black-100 p-6 shadow-card">
     <div class="mb-4 flex items-center">
       <img
+        v-img-avatar-fallback
         :src="post.user.avatar"
         alt="avatar"
         class="mr-4 h-[45px] w-[45px] flex-shrink-0 rounded-full object-cover"
-        @error="handleErrorAvatar"
       />
       <div class="flex-grow">
         <a
@@ -104,10 +103,10 @@ const messageHandler = async () => {
     </p>
     <img
       v-if="post.image"
+      v-img-fallback
       class="mt-4 rounded-lg border-2 border-black-100 object-cover"
       :src="post.image"
       alt="post image"
-      @error="handleErrorImage"
     />
     <!-- 未按讚 -->
     <button
@@ -139,7 +138,7 @@ const messageHandler = async () => {
       />
       <div class="flex flex-grow">
         <input
-          v-model="message"
+          v-model.trim="message"
           type="text"
           class="min-w-0 flex-grow rounded-none border-y-2 border-l-2 border-black-100 py-2 px-4 text-black-100"
           placeholder="留言..."
@@ -161,10 +160,10 @@ const messageHandler = async () => {
         class="flex rounded-[12px] bg-[#EFECE7]/30 py-[18px] px-4"
       >
         <img
+          v-img-avatar-fallback
           :src="item.user.avatar"
           alt="avatar"
-          class="mr-3 h-10 w-10 flex-shrink-0 object-cover"
-          @error="handleErrorAvatar"
+          class="mr-3 h-10 w-10 flex-shrink-0 rounded-full object-cover"
         />
         <div class="flex-grow text-black-100">
           <a
