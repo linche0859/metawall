@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, toRefs } from 'vue'
+import { ref, computed } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
 import { getUserPosts } from '@/apis/post'
 import { getSpecificProfile } from '@/apis/user'
@@ -27,21 +27,20 @@ const props = defineProps({
     required: true
   }
 })
-const { userId } = toRefs(props)
 
 /**
  * 是否為自己
  * @returns {boolean}
  */
 const isMe = computed(() => {
-  return me.value._id === userId.value
+  return me.value._id === props.userId
 })
 /**
  * 是否已經追蹤
  * @returns {boolean}
  */
 const isTracked = computed(() => {
-  return tracks.value.some((item) => item._id === userId.value)
+  return tracks.value.some((item) => item._id === props.userId)
 })
 
 /**
@@ -55,7 +54,7 @@ const initData = async (userId) => {
     const [tracksData, userData, postData] = await Promise.all([
       getTracks(),
       getSpecificProfile(userId),
-      getPosts()
+      getPosts(userId)
     ])
     tracks.value = tracksData.data.map((item) => item.tracking)
     user.value = userData.data
@@ -67,10 +66,11 @@ const initData = async (userId) => {
 }
 /**
  * 取得個人的貼文
+ * @param {string} userId 會員編號
  * @returns {promise}
  */
-const getPosts = async () => {
-  const data = await getUserPosts(userId.value, {
+const getPosts = async (userId) => {
+  const data = await getUserPosts(userId, {
     sort: sort.value,
     q: keyword.value
   })
@@ -81,7 +81,7 @@ const getPosts = async () => {
  */
 const setPosts = async () => {
   postLoading.value = true
-  const { data } = await getPosts()
+  const { data } = await getPosts(props.userId)
   posts.value = data
   postLoading.value = false
 }
@@ -91,13 +91,13 @@ const setPosts = async () => {
 const trackHandler = () => {
   try {
     if (isTracked.value) {
-      deleteTrack(userId.value)
+      deleteTrack(props.userId)
 
-      const index = tracks.value.findIndex((item) => item._id === userId.value)
+      const index = tracks.value.findIndex((item) => item._id === props.userId)
       tracks.value.splice(index, 1)
       user.value.tracking--
     } else {
-      postTrack(userId.value)
+      postTrack(props.userId)
       tracks.value.push(user.value)
       user.value.tracking++
     }
@@ -151,50 +151,49 @@ onBeforeRouteUpdate((to, from) => {
   const {
     params: { userId: toUserId }
   } = to
-  if (userId.value !== toUserId) {
+  if (props.userId !== toUserId) {
     initData(toUserId)
-    userId.value = toUserId
   }
 })
 
-initData(userId.value)
+initData(props.userId)
 </script>
 
 <template>
   <div
     class="relative isolate mb-4 after:absolute after:right-1 after:top-1 after:z-[-1] after:h-full after:w-full after:rounded-lg after:border-2 after:border-black-100 after:content-['']"
   >
-    <div class="flex rounded-lg border-2 border-black-100 bg-white">
-      <div
-        class="min-h-[80px] w-[20%] flex-shrink-0 border-r-2 border-black-100 lg:w-[15%]"
-      >
-        <img
-          v-img-avatar-fallback
-          :src="user.avatar"
-          class="h-full w-full rounded-l-lg object-cover"
-          alt="avatar"
-        />
-      </div>
-      <div
-        v-if="userLoading"
-        class="flex flex-grow items-center justify-center"
-      >
-        載入中...
-      </div>
-      <div v-else class="flex flex-grow items-center p-4">
-        <div class="flex-grow pr-5">
-          <div class="font-bold">{{ user.name }}</div>
-          <p>{{ convertToComma(user.tracking) }} 人追蹤</p>
-        </div>
-        <button
-          v-if="!isMe"
-          class="flex-shrink-0 rounded-lg border-2 border-black-100 px-8 font-bold leading-8 text-black-100 shadow-200"
-          :class="isTracked ? 'bg-secondary' : 'bg-yellow-100'"
-          @click="trackHandler"
+    <div
+      class="flex rounded-lg border-2 border-black-100 bg-white"
+      :class="{ 'min-h-[80px] items-center justify-center': userLoading }"
+    >
+      <template v-if="userLoading">載入中...</template>
+      <template v-else>
+        <div
+          class="min-h-[80px] w-[20%] flex-shrink-0 border-r-2 border-black-100 lg:w-[15%]"
         >
-          {{ isTracked ? '取消追蹤' : '追蹤' }}
-        </button>
-      </div>
+          <img
+            v-img-avatar-fallback
+            :src="user.avatar"
+            class="h-full w-full rounded-l-lg object-cover"
+            alt="avatar"
+          />
+        </div>
+        <div class="flex flex-grow items-center p-4">
+          <div class="flex-grow pr-5">
+            <div class="font-bold">{{ user.name }}</div>
+            <p>{{ convertToComma(user.tracking) }} 人追蹤</p>
+          </div>
+          <button
+            v-if="!isMe"
+            class="flex-shrink-0 rounded-lg border-2 border-black-100 px-8 font-bold leading-8 text-black-100 shadow-200"
+            :class="isTracked ? 'bg-secondary' : 'bg-yellow-100'"
+            @click="trackHandler"
+          >
+            {{ isTracked ? '取消追蹤' : '追蹤' }}
+          </button>
+        </div>
+      </template>
     </div>
   </div>
   <PostFilter
