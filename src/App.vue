@@ -118,8 +118,8 @@ watch(
             </a>
           </li>
           <li>
-            <a
-              href="./track-list.html"
+            <router-link
+              :to="{ name: 'Track' }"
               class="peer group block text-black-100 hover:text-primary"
             >
               <span
@@ -128,7 +128,7 @@ watch(
                 <i class="fa-regular fa-bell"></i>
               </span>
               <span class="hidden font-bold lg:inline">追蹤名單</span>
-            </a>
+            </router-link>
           </li>
           <li>
             <router-link

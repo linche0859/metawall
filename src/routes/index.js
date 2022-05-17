@@ -37,6 +37,12 @@ const routes = [
     beforeEnter: authBeforeEnter
   },
   {
+    path: '/track',
+    name: 'Track',
+    component: () => import('@/pages/Track.vue'),
+    beforeEnter: authBeforeEnter
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/pages/NotFound.vue')
