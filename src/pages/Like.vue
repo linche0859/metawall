@@ -65,10 +65,10 @@ setLikes()
           class="mr-4 h-10 w-10 flex-shrink-0 rounded-full object-cover"
         />
         <div class="flex-grow pr-5">
-          <a
-            href="./personal-wall.html"
+          <router-link
+            :to="{ name: 'User', params: { userId: item.user._id } }"
             class="font-bold text-black-100 hover:text-primary hover:underline"
-            >{{ item.user.name }}</a
+            >{{ item.user.name }}</router-link
           >
           <div class="text-sm text-gray-300">
             發文時間：<span class="font-baloo">{{
@@ -83,13 +83,13 @@ setLikes()
           <i class="fa-regular fa-thumbs-up"></i>
           <span class="mt-1 text-sm font-bold text-black-100">取消</span>
         </button>
-        <a
-          href="./personal-wall.html"
+        <router-link
+          :to="{ name: 'User', params: { userId: item.user._id } }"
           class="flex flex-shrink-0 flex-col items-center text-xl leading-none text-black-100"
         >
           <i class="fa-regular fa-circle-right"></i>
           <span class="mt-1 text-sm font-bold">查看</span>
-        </a>
+        </router-link>
       </li>
     </ul>
     <empty-post-card v-else>目前尚無按讚的貼文</empty-post-card>

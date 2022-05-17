@@ -1,17 +1,14 @@
 <script setup>
 import { ref } from 'vue'
-import { useCookies } from '@vueuse/integrations/useCookies'
 import { useRouter } from 'vue-router'
 import { postSignIn } from '@/apis/user'
-import { clearUserInfo } from '@/compatibles/method'
+import { setCookieToke, clearUserInfo } from '@/compatibles/method'
 
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
 const error = ref('')
 const router = useRouter()
-
-clearUserInfo()
 
 /**
  * 登入事件
@@ -24,8 +21,7 @@ const submit = async () => {
       email: email.value,
       password: password.value
     })
-    const cookies = useCookies()
-    cookies.set('token', data.token)
+    setCookieToke(data.token)
     router.push({ name: 'Index' })
   } catch (e) {
     error.value = e.message
@@ -35,6 +31,8 @@ const submit = async () => {
     password.value = ''
   }
 }
+
+clearUserInfo()
 </script>
 
 <template>

@@ -88,10 +88,10 @@ const messageHandler = async () => {
         class="mr-4 h-[45px] w-[45px] flex-shrink-0 rounded-full object-cover"
       />
       <div class="flex-grow">
-        <a
-          href="./personal-wall.html"
+        <router-link
+          :to="{ name: 'User', params: { userId: post.user._id } }"
           class="font-bold text-black-100 hover:text-primary hover:underline"
-          >{{ post.user.name }}</a
+          >{{ post.user.name }}</router-link
         >
         <div class="font-baloo text-xs leading-5 text-gray-300">
           {{ dayFormat(post.createdAt) }}
@@ -104,7 +104,7 @@ const messageHandler = async () => {
     <img
       v-if="post.image"
       v-img-fallback
-      class="mt-4 rounded-lg border-2 border-black-100 object-cover"
+      class="mt-4 rounded-lg object-cover"
       :src="post.image"
       alt="post image"
     />
@@ -132,9 +132,10 @@ const messageHandler = async () => {
     </button>
     <div class="mt-[18px] flex items-center">
       <img
+        v-img-avatar-fallback
         :src="user.avatar"
         alt="avatar"
-        class="mr-2 h-10 w-10 flex-shrink-0 object-cover"
+        class="mr-2 h-10 w-10 flex-shrink-0 rounded-full object-cover"
       />
       <div class="flex flex-grow">
         <input
@@ -166,10 +167,10 @@ const messageHandler = async () => {
           class="mr-3 h-10 w-10 flex-shrink-0 rounded-full object-cover"
         />
         <div class="flex-grow text-black-100">
-          <a
-            href="./personal-wall.html"
+          <router-link
+            :to="{ name: 'User', params: { userId: item.user._id } }"
             class="hover:text-primary hover:underline"
-            >{{ item.user.name }}</a
+            >{{ item.user.name }}</router-link
           >
           <div class="mb-1 text-xs leading-5 text-gray-300">
             {{ dayFormat(item.createdAt) }}

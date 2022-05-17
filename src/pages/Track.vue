@@ -45,10 +45,10 @@ setTracks()
           class="mr-4 h-10 w-10 flex-shrink-0 rounded-full"
         />
         <div class="flex-grow">
-          <a
-            href="./personal-wall.html"
+          <router-link
+            :to="{ name: 'User', params: { userId: item.tracking._id } }"
             class="font-bold text-black-100 hover:text-primary hover:underline"
-            >{{ item.tracking.name }}</a
+            >{{ item.tracking.name }}</router-link
           >
           <div class="text-sm text-gray-300">
             追蹤時間：{{ dayFormat(item.createdAt) }}

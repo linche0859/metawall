@@ -1,13 +1,15 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { getPosts } from '@/apis/post'
+import { postLike, deleteLike, postMessage } from '@/compatibles/posts/method'
 import globalData from '@/compatibles/data'
 import PostCard from '@/components/cards/PostCard.vue'
 import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
+import PostFilter from '@/components/filters/PostFilter.vue'
 
 const loading = ref(true)
 const sort = ref('desc')
-const searchValue = ref('')
+const keyword = ref('')
 const posts = ref([])
 const { user } = globalData()
 
@@ -17,7 +19,7 @@ const { user } = globalData()
 const setPosts = async () => {
   try {
     loading.value = true
-    const { data } = await getPosts({ sort: sort.value, q: searchValue.value })
+    const { data } = await getPosts({ sort: sort.value, q: keyword.value })
     posts.value = data
   } finally {
     loading.value = false
@@ -27,27 +29,39 @@ const setPosts = async () => {
  * 按讚貼文
  * @param {string} postId 貼文編號
  */
-const postLike = (postId) => {
-  const post = posts.value.find((item) => item._id === postId)
-  post.likes.push(user.value._id)
+const postLikeHandler = (postId) => {
+  postLike({ postId, userId: user.value._id, posts: posts.value })
 }
 /**
  * 移除貼文的按讚
  * @param {string} postId 貼文編號
  */
-const deleteLike = (postId) => {
-  const post = posts.value.find((item) => item._id === postId)
-  const index = post.likes.indexOf(user.value._id)
-  if (~index) post.likes.splice(index, 1)
+const deleteLikeHandler = (postId) => {
+  deleteLike({ postId, userId: user.value._id, posts: posts.value })
 }
 /**
  * 新增貼文留言
  * @param {string} postId 貼文編號
  * @param {object} message 留言資訊
  */
-const postMessage = ({ postId, message }) => {
-  const post = posts.value.find((item) => item._id === postId)
-  post.messages.unshift(message)
+const postMessageHandler = ({ postId, message }) => {
+  postMessage({ postId, message, posts: posts.value })
+}
+/**
+ * 切換排序事件
+ * @param {string} value 排序方式
+ */
+const changeSort = (value) => {
+  sort.value = value
+  setPosts()
+}
+/**
+ * 變更搜尋的關鍵字
+ * @param {string} value 關鍵字
+ */
+const changeKeyword = (value) => {
+  keyword.value = value
+  setPosts()
 }
 
 watch(() => sort.value, setPosts)
@@ -56,38 +70,13 @@ setPosts()
 </script>
 
 <template>
-  <div class="mb-4 lg:flex lg:space-x-3">
-    <div class="relative mb-[6px] lg:mb-0 lg:w-[29.26%] lg:flex-shrink-0">
-      <select
-        v-model="sort"
-        class="block w-full appearance-none border-2 border-black-100 bg-white py-3 pl-4 pr-[28px] font-azeret leading-[22px] text-black-100"
-      >
-        <option value="" disabled>請選擇</option>
-        <option value="desc" selected>最新貼文</option>
-        <option value="asc" selected>貼文發佈時間</option>
-      </select>
-      <i
-        class="fa-solid fa-angle-down absolute right-4 top-1/2 -translate-y-1/2 text-black-100"
-      ></i>
-    </div>
-    <div class="flex lg:flex-grow">
-      <input
-        v-model="searchValue"
-        @keyup.enter="setPosts"
-        type="text"
-        class="flex-grow rounded-none border-y-2 border-l-2 border-black-100 py-3 px-4 font-azeret leading-[22px] text-black-100"
-        placeholder="搜尋貼文"
-      />
-      <Button
-        use-icon
-        :loading="loading"
-        class="w-[46px] flex-shrink-0 border-2 border-black-100 bg-primary text-xl text-white"
-        @click="setPosts"
-      >
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </Button>
-    </div>
-  </div>
+  <PostFilter
+    class="mb-4"
+    :loading="loading"
+    :sort="sort"
+    @change-sort="changeSort"
+    @change-keyword="changeKeyword"
+  />
   <empty-post-card v-if="loading">載入中...</empty-post-card>
   <template v-else>
     <ul v-if="posts.length" class="space-y-4">
@@ -95,9 +84,9 @@ setPosts()
         v-for="post in posts"
         :key="post._id"
         :post="post"
-        @post-like="postLike"
-        @post-message="postMessage"
-        @delete-like="deleteLike"
+        @post-like="postLikeHandler"
+        @post-message="postMessageHandler"
+        @delete-like="deleteLikeHandler"
       />
     </ul>
     <EmptyPostCard v-else />

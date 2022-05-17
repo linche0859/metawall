@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { authBeforeEnter } from './navigation-guard'
+import navGuard from './navigation-guard'
 
 const routes = [
   {
     path: '/',
     name: 'Index',
     component: () => import('@/pages/Index.vue'),
-    beforeEnter: authBeforeEnter
+    beforeEnter: navGuard.beforeEnter.checkAuth
   },
   {
     path: '/login',
@@ -22,25 +22,32 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import('@/pages/Profile.vue'),
-    beforeEnter: authBeforeEnter
+    beforeEnter: navGuard.beforeEnter.checkAuth
   },
   {
     path: '/post',
     name: 'Post',
     component: () => import('@/pages/Post.vue'),
-    beforeEnter: authBeforeEnter
+    beforeEnter: navGuard.beforeEnter.checkAuth
   },
   {
     path: '/like',
     name: 'Like',
     component: () => import('@/pages/Like.vue'),
-    beforeEnter: authBeforeEnter
+    beforeEnter: navGuard.beforeEnter.checkAuth
   },
   {
     path: '/track',
     name: 'Track',
     component: () => import('@/pages/Track.vue'),
-    beforeEnter: authBeforeEnter
+    beforeEnter: navGuard.beforeEnter.checkAuth
+  },
+  {
+    path: '/user/:userId',
+    name: 'User',
+    component: () => import('@/pages/User.vue'),
+    props: true,
+    beforeEnter: navGuard.beforeEnter.checkUser
   },
   {
     path: '/:pathMatch(.*)*',

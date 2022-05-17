@@ -51,10 +51,10 @@ watch(
               class="divide-y-2 divide-black-100 border-2 border-black-100 bg-white text-center text-black-100"
             >
               <li>
-                <a
-                  href="./personal-wall.html"
+                <router-link
+                  :to="{ name: 'User', params: { userId: user._id } }"
                   class="block py-2 hover:bg-[#EFECE7]"
-                  >我的貼文牆</a
+                  >我的貼文牆</router-link
                 >
               </li>
               <li>
@@ -104,8 +104,8 @@ watch(
             </router-link>
           </li>
           <li class="hidden lg:block">
-            <a
-              href="./personal-wall.html"
+            <router-link
+              :to="{ name: 'User', params: { userId: user._id } }"
               class="block text-black-100 hover:text-primary"
             >
               <img
@@ -115,7 +115,7 @@ watch(
                 class="mr-3 inline-block h-[50px] w-[50px] rounded-full object-cover"
               />
               <span class="align-middle font-bold">{{ user.name }}</span>
-            </a>
+            </router-link>
           </li>
           <li>
             <router-link

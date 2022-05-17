@@ -69,7 +69,7 @@ const submit = async () => {
       >貼文內容</label
     >
     <textarea
-      v-model="content"
+      v-model.trim="content"
       class="block min-h-[169px] w-full border-2 border-black-100 py-3 px-4"
       placeholder="輸入您的貼文內容"
     ></textarea>

@@ -1,10 +1,9 @@
-import { useCookies } from '@vueuse/integrations/useCookies'
-import { getProfile } from '@/apis/user'
+import { getProfile, getUserCheck } from '@/apis/user'
+import { getCookieToken } from '@/compatibles/method'
 import globalData from '@/compatibles/data'
 
-export const authBeforeEnter = async (to, from) => {
-  const cookies = useCookies()
-  if (!cookies.get('token')) {
+const checkAuth = async (to, from) => {
+  if (!getCookieToken()) {
     return { name: 'Login' }
   }
   try {
@@ -13,11 +12,27 @@ export const authBeforeEnter = async (to, from) => {
 
     const { data } = await getProfile()
     user.value = data
-
-    if (!user.value.avatar) {
-      user.value.avatar = 'https://i.imgur.com/nJWDEZP.png'
-    }
+    return true
   } catch (e) {
     return { name: 'Login' }
+  }
+}
+
+const checkUser = async (to, from) => {
+  try {
+    const auth = await checkAuth(to, from)
+    if (auth === true) {
+      await getUserCheck(to.params.userId)
+      return true
+    }
+  } catch (e) {
+    return { name: 'NotFound' }
+  }
+}
+
+export default {
+  beforeEnter: {
+    checkAuth,
+    checkUser
   }
 }

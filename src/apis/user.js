@@ -7,6 +7,21 @@ import axios from '@/plugins/axios'
 export const getProfile = () => axios.get('/user/profile')
 
 /**
+ * 取得特定的會員資訊
+ * @param {string} userId 會員編號
+ * @returns {promise}
+ */
+export const getSpecificProfile = (userId) =>
+  axios.get(`/user/${userId}/profile`)
+
+/**
+ * 驗證是否為有效的會員
+ * @param {string} userId 會員編號
+ * @returns {promise}
+ */
+export const getUserCheck = (userId) => axios.get(`/user/${userId}/check`)
+
+/**
  * 登入會員
  * @param {string} email 信箱
  * @param {string} password 密碼
