@@ -1,43 +1,68 @@
 <script setup>
 import { ref } from 'vue'
 import { postOnePost } from '@/apis/post'
+import { postImage } from '@/apis/file'
 import { getErrorContent } from '@/utils/response'
 import swal from '@/plugins/swal'
-// import globalData from '@/compatibles/data'
 
 const loading = ref(false)
 const content = ref('')
-const image = ref('')
+const imageUrl = ref('')
 const error = ref('')
-// const { user } = globalData()
-// console.log(user)
+const postFile = ref(null)
+const inputFile = ref(null)
 
 /**
- * 驗證圖片格式
- * @returns {boolean}
+ * 變更檔案事件
+ * @param {file} e File instance
  */
-const validateImage = () => {
-  if (image.value.length && !image.value.startsWith('https://')) {
-    error.value = '圖片格式錯誤，僅限 JPG、PNG 圖片'
-    return false
+const changeFileHandler = (e) => {
+  const file = e.target.files.item(0)
+  error.value = ''
+  if (!['image/jpeg', 'image/png'].includes(file.type)) {
+    error.value = '檔案格式錯誤，僅限上傳 jpg、jpeg 與 png 格式'
+    inputFile.value.value = ''
+    return
   }
-  return true
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => {
+    imageUrl.value = reader.result
+    postFile.value = file
+  }
 }
-
+/**
+ * 上傳貼文圖片
+ */
+const uploadImage = async () => {
+  try {
+    const formData = new FormData()
+    formData.append('image', postFile.value)
+    const { data } = await postImage(formData)
+    return data
+  } catch (e) {
+    return Promise.reject(e)
+  }
+}
 /**
  * 送出貼文
  */
 const submit = async () => {
+  loading.value = true
   try {
-    loading.value = true
-    if (!validateImage()) return
-    await postOnePost({
-      content: content.value,
-      image: image.value
-    })
-    error.value = ''
+    let link = ''
+    if (postFile.value) {
+      link = await uploadImage()
+    }
+    const payload = { content: content.value }
+    if (link) payload.image = link
+
+    await postOnePost(payload)
     content.value = ''
-    image.value = ''
+    imageUrl.value = ''
+    error.value = ''
+    inputFile.value.value = ''
+    postFile.value = null
     swal({
       title: '新增貼文成功'
     })
@@ -73,22 +98,25 @@ const submit = async () => {
       class="block min-h-[169px] w-full border-2 border-black-100 py-3 px-4"
       placeholder="輸入您的貼文內容"
     ></textarea>
-    <input
-      v-model="image"
-      type="text"
-      class="mt-4 w-full rounded-none border-2 border-black-100 py-3 px-4 font-azeret leading-[22px] text-black-100"
-      placeholder="圖片網址 https://..."
-    />
     <!-- 暫時隱藏，等 imgur 實作 -->
-    <template v-if="false">
-      <label
-        class="relative mt-4 inline-block rounded bg-black-100 py-1 px-8 text-white"
-      >
-        <input type="file" class="sr-only" />
-        上傳圖片
-      </label>
-      <img src="" alt="post photo" class="mt-4" />
-    </template>
+    <label
+      class="relative mt-4 inline-block cursor-pointer rounded bg-black-100 py-1 px-8 text-white"
+    >
+      <input
+        ref="inputFile"
+        type="file"
+        class="sr-only"
+        accept="image/*"
+        @change="changeFileHandler"
+      />
+      上傳圖片
+    </label>
+    <img
+      v-show="imageUrl"
+      :src="imageUrl"
+      alt="post image"
+      class="mt-4 rounded-lg object-cover"
+    />
     <p
       v-if="error"
       class="mt-8 text-center text-sm text-red-100"

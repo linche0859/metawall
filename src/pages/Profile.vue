@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import globalData from '@/compatibles/data'
 import { patchProfile, patchPassword } from '@/apis/user'
+import { postAvatar } from '@/apis/file'
 import { getErrorContent } from '@/utils/response'
 import swal from '@/plugins/swal'
 
@@ -21,37 +22,69 @@ const genders = [
 const nicknameForm = ref({
   avatar: '',
   name: '',
-  gender: 'male'
+  gender: 'male',
+  avatarFile: null
 })
 const passwordForm = ref({
   password: '',
   confirmPassword: ''
 })
+const inputFile = ref(null)
 
 nicknameForm.value.avatar = user.value.avatar
 nicknameForm.value.name = user.value.name
 nicknameForm.value.gender = user.value.gender
 
-const uploadAvatarHandler = (e) => {
+const changeAvatarHandler = (e) => {
   const file = e.target.files.item(0)
+  nicknameError.value = ''
+  if (!['image/jpeg', 'image/png'].includes(file.type)) {
+    nicknameError.value = '檔案格式錯誤，僅限上傳 jpg、jpeg 與 png 格式'
+    inputFile.value.value = ''
+    return
+  }
   const reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onload = () => {
     nicknameForm.value.avatar = reader.result
+    nicknameForm.value.avatarFile = file
+  }
+}
+/**
+ * 上傳會員頭像
+ */
+const uploadAvatar = async () => {
+  try {
+    const formData = new FormData()
+    formData.append('image', nicknameForm.value.avatarFile)
+    const { data } = await postAvatar(formData)
+    return data
+  } catch (e) {
+    return Promise.reject(e)
   }
 }
 const submitProfileHandler = async () => {
   loading.value = true
   nicknameError.value = ''
   try {
+    let link = ''
+    if (nicknameForm.value.avatarFile) {
+      link = await uploadAvatar()
+    }
     const { name, gender } = nicknameForm.value
-    await patchProfile({ name, gender })
+    const payload = { name, gender }
+    if (link) payload.avatar = link
+
+    await patchProfile(payload)
     swal({
       title: '更新成功'
     })
+    user.value.avatar = link
     user.value.name = name
     user.value.gender = gender
     nicknameError.value = ''
+    inputFile.value.value = ''
+    nicknameForm.value.avatarFile = null
   } catch (e) {
     const message = getErrorContent(e.message)
     nicknameError.value = message
@@ -118,10 +151,11 @@ const submitPasswordHandler = async () => {
       class="mb-11px relative cursor-pointer bg-black-100 py-1 px-6 text-white"
     >
       <input
+        ref="inputFile"
         type="file"
         class="sr-only"
         accept="image/*"
-        @change="uploadAvatarHandler"
+        @change="changeAvatarHandler"
       />
       上傳大頭照
     </label>
