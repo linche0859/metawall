@@ -20,7 +20,7 @@ export const getPosts = (params) => axios.get('/posts', { params })
  * @returns {promise}
  */
 export const getUserPosts = (userId, params) =>
-  axios.get(`/posts/${userId}`, { params })
+  axios.get(`/posts/${userId}/user`, { params })
 
 /**
  * 取得按讚的貼文
