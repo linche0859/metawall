@@ -84,7 +84,7 @@ watch(
         <router-view></router-view>
       </section>
       <nav
-        class="fixed inset-x-0 bottom-4 px-2 lg:static lg:bottom-0 lg:w-[35.55%] lg:flex-shrink-0 lg:self-start lg:border-2 lg:border-black-100 lg:py-8 lg:px-6"
+        class="fixed inset-x-0 bottom-4 px-2 lg:sticky lg:inset-x-auto lg:bottom-auto lg:top-[49px] lg:w-[35.55%] lg:flex-shrink-0 lg:self-start lg:border-2 lg:border-black-100 lg:py-8 lg:px-6"
       >
         <router-link
           :to="{ name: 'Post' }"

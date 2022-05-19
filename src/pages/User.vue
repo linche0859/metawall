@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
 import { getUserPosts } from '@/apis/post'
 import { getSpecificProfile } from '@/apis/user'
@@ -12,14 +12,18 @@ import swal from '@/plugins/swal'
 import PostFilter from '@/components/filters/PostFilter.vue'
 import PostCard from '@/components/cards/PostCard.vue'
 import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
+import Loader from '@/components/Loader.vue'
 
 const userLoading = ref(false)
 const postLoading = ref(false)
+const scrollLoading = ref(false)
 const sort = ref('desc')
 const keyword = ref('')
+const page = ref(1)
 const tracks = ref([])
 const posts = ref([])
 const user = ref({})
+const pageMeta = ref({})
 const { user: me } = globalData()
 const props = defineProps({
   userId: {
@@ -58,7 +62,8 @@ const initData = async (userId) => {
     ])
     tracks.value = tracksData.data.map((item) => item.tracking)
     user.value = userData.data
-    posts.value = postData.data
+    posts.value = postData.data.data
+    pageMeta.value = postData.data.meta
   } finally {
     userLoading.value = false
     postLoading.value = false
@@ -72,18 +77,33 @@ const initData = async (userId) => {
 const getPosts = async (userId) => {
   const data = await getUserPosts(userId, {
     sort: sort.value,
-    q: keyword.value
+    q: keyword.value,
+    page: page.value
   })
   return data
 }
 /**
  * 設置個人的貼文
+ * @param {boolean} isScrollLoading 是否為滾動視窗載入
+ * @param {boolean} reset 是否需初始化貼文列表和頁碼
  */
-const setPosts = async () => {
-  postLoading.value = true
-  const { data } = await getPosts(props.userId)
-  posts.value = data
-  postLoading.value = false
+const setPosts = async ({ isScrolling = false, reset = false } = {}) => {
+  try {
+    if (isScrolling) scrollLoading.value = true
+    else postLoading.value = true
+    if (reset) {
+      page.value = 1
+      posts.value = []
+    }
+    const {
+      data: { data, meta }
+    } = await getPosts(props.userId)
+    posts.value.push(...data)
+    pageMeta.value = meta
+  } finally {
+    postLoading.value = false
+    scrollLoading.value = false
+  }
 }
 /**
  * 追蹤事件
@@ -136,7 +156,7 @@ const postMessageHandler = ({ postId, message }) => {
  */
 const changeSort = (value) => {
   sort.value = value
-  setPosts()
+  setPosts({ reset: true })
 }
 /**
  * 變更搜尋的關鍵字
@@ -144,7 +164,22 @@ const changeSort = (value) => {
  */
 const changeKeyword = (value) => {
   keyword.value = value
-  setPosts()
+  setPosts({ reset: true })
+}
+/**
+ * 滾動視窗事件
+ */
+const scrollWindowHandler = () => {
+  if (
+    postLoading.value ||
+    scrollLoading.value ||
+    pageMeta.value.currentPage >= pageMeta.value.lastPage
+  )
+    return
+  if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) {
+    page.value++
+    setPosts({ isScrolling: true })
+  }
 }
 
 onBeforeRouteUpdate((to, from) => {
@@ -152,8 +187,17 @@ onBeforeRouteUpdate((to, from) => {
     params: { userId: toUserId }
   } = to
   if (props.userId !== toUserId) {
+    page.value = 1
     initData(toUserId)
   }
+})
+
+onMounted(() => {
+  window.addEventListener('scroll', scrollWindowHandler)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', scrollWindowHandler)
 })
 
 initData(props.userId)
@@ -217,4 +261,7 @@ initData(props.userId)
     </ul>
     <EmptyPostCard v-else />
   </template>
+  <div v-if="scrollLoading" class="mt-5 flex justify-center">
+    <Loader color="text-primary" />
+  </div>
 </template>

@@ -4,6 +4,8 @@ import axios from '@/plugins/axios'
  * 取得貼文
  * @param {string} sort 資料排序
  * @param {string} q 關鍵字
+ * @param {number} page 頁碼
+ * @param {limit} limit 頁筆數
  * @returns {promise}
  */
 export const getPosts = (params) => axios.get('/posts', { params })
@@ -13,6 +15,8 @@ export const getPosts = (params) => axios.get('/posts', { params })
  * @param {string} userId 會員編號
  * @param {string} sort 資料排序
  * @param {string} q 關鍵字
+ * @param {number} page 頁碼
+ * @param {limit} limit 頁筆數
  * @returns {promise}
  */
 export const getUserPosts = (userId, params) =>
