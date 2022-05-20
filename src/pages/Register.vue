@@ -63,7 +63,7 @@ clearUserInfo()
 <template>
   <main class="flex min-h-screen">
     <div
-      class="m-auto w-full max-w-[600px] border-2 border-black-100 bg-[#EFECE7] p-10 shadow-300 lg:flex lg:max-w-[869px] lg:items-center lg:py-[70px] lg:px-[48px]"
+      class="m-auto w-full max-w-[600px] border-2 border-black-100 bg-secondary p-10 shadow-300 lg:flex lg:max-w-[869px] lg:items-center lg:py-[70px] lg:px-[48px]"
     >
       <img
         src="../assets/images/login/social-circle.png"

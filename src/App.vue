@@ -53,21 +53,21 @@ watch(
               <li>
                 <router-link
                   :to="{ name: 'User', params: { userId: user._id } }"
-                  class="block py-2 hover:bg-[#EFECE7]"
+                  class="block py-2 hover:bg-secondary"
                   >我的貼文牆</router-link
                 >
               </li>
               <li>
                 <router-link
                   :to="{ name: 'Profile' }"
-                  class="block py-2 hover:bg-[#EFECE7]"
+                  class="block py-2 hover:bg-secondary"
                   >修改個人資料</router-link
                 >
               </li>
               <li>
                 <router-link
                   :to="{ name: 'Login' }"
-                  class="block py-2 hover:bg-[#EFECE7]"
+                  class="block py-2 hover:bg-secondary"
                 >
                   登出
                 </router-link>

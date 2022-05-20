@@ -1,10 +1,11 @@
 <script setup>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, computed } from 'vue'
 import { dayFormat } from '@/plugins/day'
 import { postLike, deleteLike, postMessage } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
 import globalData from '@/compatibles/data'
 import swal from '@/plugins/swal'
+import MorePopover from '@/components/popovers/MorePopover.vue'
 
 const props = defineProps({
   post: {
@@ -18,6 +19,9 @@ const message = ref('')
 const { post } = toRefs(props)
 const { user } = globalData()
 const emit = defineEmits(['post-like', 'delete-like', 'post-message'])
+const isMe = computed(() => {
+  return user.value._id === post.value.user._id
+})
 
 /**
  * 按讚事件
@@ -76,6 +80,30 @@ const messageHandler = async () => {
     loading.value = false
   }
 }
+/**
+ * 點擊編輯貼文事件
+ */
+const clickEditPostHandler = () => {
+  alert('編輯貼文功能，施工中...')
+}
+/**
+ * 點擊刪除貼文事件
+ */
+const clickDeletePostHandler = () => {
+  alert('刪除貼文功能，施工中...')
+}
+/**
+ * 點擊編輯留言事件
+ */
+const clickEditMessageHandler = () => {
+  alert('編輯留言功能，施工中...')
+}
+/**
+ * 點擊刪除留言事件
+ */
+const clickDeleteMessageHandler = () => {
+  alert('刪除留言功能，施工中...')
+}
 </script>
 
 <template>
@@ -97,6 +125,32 @@ const messageHandler = async () => {
           {{ dayFormat(post.createdAt) }}
         </div>
       </div>
+      <more-popover v-if="isMe" class="ml-3 flex-shrink-0">
+        <ul
+          class="shadow min-w-[120px] divide-y divide-secondary whitespace-nowrap rounded-lg border-2 border-black-100 bg-white py-1 px-3 text-black-100"
+        >
+          <li class="py-2">
+            <button
+              class="block w-full rounded-md p-2 hover:bg-secondary/70"
+              @click.stop="clickEditPostHandler"
+              @mousedown.prevent
+            >
+              <i class="far fa-edit"></i>
+              編輯貼文
+            </button>
+          </li>
+          <li class="py-2">
+            <button
+              class="block w-full rounded-md p-2 text-red-500 hover:bg-secondary/70"
+              @click.stop="clickDeletePostHandler"
+              @mousedown.prevent
+            >
+              <i class="fas fa-trash-alt mr-1"></i>
+              刪除貼文
+            </button>
+          </li>
+        </ul>
+      </more-popover>
     </div>
     <p class="text-black-100">
       {{ post.content }}
@@ -154,29 +208,60 @@ const messageHandler = async () => {
         </Button>
       </div>
     </div>
-    <ul v-if="post.messages.length" class="mt-[18px] space-y-4">
+    <ul v-if="post.messages.length" class="mt-[18px] space-y-4 text-black-100">
       <li
         v-for="item in post.messages"
         :key="item._id"
-        class="flex rounded-[12px] bg-[#EFECE7]/30 py-[18px] px-4"
+        class="rounded-[12px] bg-secondary/30 py-[18px] px-4"
       >
-        <img
-          v-img-avatar-fallback
-          :src="item.user.avatar"
-          alt="avatar"
-          class="mr-3 h-10 w-10 flex-shrink-0 rounded-full object-cover"
-        />
-        <div class="flex-grow text-black-100">
-          <router-link
-            :to="{ name: 'User', params: { userId: item.user._id } }"
-            class="hover:text-primary hover:underline"
-            >{{ item.user.name }}</router-link
-          >
-          <div class="mb-1 text-xs leading-5 text-gray-300">
-            {{ dayFormat(item.createdAt) }}
+        <div class="mb-1 flex items-center">
+          <img
+            v-img-avatar-fallback
+            :src="item.user.avatar"
+            alt="avatar"
+            class="mr-3 h-10 w-10 flex-shrink-0 rounded-full object-cover"
+          />
+          <div class="flex-grow">
+            <router-link
+              :to="{ name: 'User', params: { userId: item.user._id } }"
+              class="hover:text-primary hover:underline"
+              >{{ item.user.name }}</router-link
+            >
+            <div class="text-xs leading-5 text-gray-300">
+              {{ dayFormat(item.createdAt) }}
+            </div>
           </div>
-          <p class="break-all">{{ item.content }}</p>
+          <more-popover
+            v-if="item.user._id === user._id"
+            class="ml-3 flex-shrink-0"
+          >
+            <ul
+              class="shadow min-w-[120px] divide-y divide-secondary whitespace-nowrap rounded-lg border-2 border-black-100 bg-white py-1 px-3 text-black-100"
+            >
+              <li class="py-2">
+                <button
+                  class="block w-full rounded-md p-2 hover:bg-secondary/70"
+                  @click.stop="clickEditMessageHandler"
+                  @mousedown.prevent
+                >
+                  <i class="far fa-edit"></i>
+                  編輯留言
+                </button>
+              </li>
+              <li class="py-2">
+                <button
+                  class="block w-full rounded-md p-2 text-red-500 hover:bg-secondary/70"
+                  @click.stop="clickDeleteMessageHandler"
+                  @mousedown.prevent
+                >
+                  <i class="fas fa-trash-alt mr-1"></i>
+                  刪除留言
+                </button>
+              </li>
+            </ul>
+          </more-popover>
         </div>
+        <p class="break-all pl-[52px]">{{ item.content }}</p>
       </li>
     </ul>
   </li>
