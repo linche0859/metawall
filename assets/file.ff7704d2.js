@@ -1,1 +1,0 @@
-import{j as t}from"./index.8604c9ce.js";const s={"Content-Type":"multipart/form-data"},e=async a=>t.post("/file/avatar",a,{headers:s}),n=async a=>t.post("/file/image",a,{headers:s});export{n as a,e as p};
