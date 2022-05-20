@@ -79,7 +79,7 @@ const submitProfileHandler = async () => {
     swal({
       title: '更新成功'
     })
-    user.value.avatar = link
+    if (link) user.value.avatar = link
     user.value.name = name
     user.value.gender = gender
     nicknameError.value = ''

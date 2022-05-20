@@ -141,7 +141,7 @@ const messageHandler = async () => {
         <input
           v-model.trim="message"
           type="text"
-          class="min-w-0 flex-grow rounded-none border-y-2 border-l-2 border-black-100 py-2 px-4 text-black-100"
+          class="w-[71.11%] rounded-none border-y-2 border-l-2 border-black-100 py-2 px-4 text-black-100"
           placeholder="留言..."
         />
         <Button
