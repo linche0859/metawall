@@ -57,3 +57,18 @@ export const deleteLike = (postId) => axios.delete(`/post/${postId}/like`)
  */
 export const postMessage = (postId, payload) =>
   axios.post(`/post/${postId}/message`, payload)
+
+/**
+ * 刪除特定的貼文
+ * @param {string} postId 貼文編號
+ * @returns {promise}
+ */
+export const deletePost = (postId) => axios.delete(`/post/${postId}`)
+
+/**
+ * 刪除特定的留言
+ * @param {string} messageId 留言編號
+ * @returns {promise}
+ */
+export const deleteMessage = (messageId) =>
+  axios.delete(`/post/${messageId}/message`)

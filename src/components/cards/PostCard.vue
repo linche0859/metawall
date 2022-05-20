@@ -18,7 +18,12 @@ const loading = ref(false)
 const message = ref('')
 const { post } = toRefs(props)
 const { user } = globalData()
-const emit = defineEmits(['post-like', 'delete-like', 'post-message'])
+const emit = defineEmits([
+  'post-like',
+  'delete-like',
+  'post-message',
+  'delete-post'
+])
 const isMe = computed(() => {
   return user.value._id === post.value.user._id
 })
@@ -89,8 +94,11 @@ const clickEditPostHandler = () => {
 /**
  * 點擊刪除貼文事件
  */
-const clickDeletePostHandler = () => {
-  alert('刪除貼文功能，施工中...')
+const clickDeletePostHandler = async () => {
+  if (confirm('確定刪除這篇貼文？')) {
+    emit('delete-post', post.value._id)
+    swal({ title: '刪除成功' })
+  }
 }
 /**
  * 點擊編輯留言事件
