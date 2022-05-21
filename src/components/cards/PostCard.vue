@@ -38,8 +38,10 @@ const confirmSwal = async (title) => {
     icon: 'question',
     title,
     showCancelButton: true,
+    focusConfirm: false,
     confirmButtonText: '確定',
     cancelButtonText: '取消',
+    confirmButtonColor: '#EF4444',
     timer: 0
   })
   return result
