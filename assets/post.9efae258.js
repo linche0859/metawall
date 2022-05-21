@@ -1,1 +1,0 @@
-import{j as t}from"./index.e74b4c15.js";const p=s=>t.get("/posts",{params:s}),a=(s,e)=>t.get(`/posts/${s}/user`,{params:e}),n=()=>t.get("/posts/like"),c=s=>t.post("/post",s),g=s=>t.post(`/post/${s}/like`),i=s=>t.delete(`/post/${s}/like`),l=(s,e)=>t.post(`/post/${s}/message`,e),d=s=>t.delete(`/post/${s}`);export{i as a,l as b,c,d,n as e,a as f,p as g,g as p};
