@@ -38,7 +38,7 @@ const uploadImage = async () => {
   try {
     const formData = new FormData()
     formData.append('image', postFile.value)
-    const { data } = await postImage(formData)
+    const { data } = await postImage({ payload: formData })
     return data
   } catch (e) {
     return Promise.reject(e)

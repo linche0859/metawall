@@ -5,17 +5,10 @@ const headers = {
 }
 
 /**
- * 上傳會員頭像
- * @param {formData} payload FormData
- * @returns {promise}
- */
-export const postAvatar = async (payload) =>
-  axios.post('/file/avatar', payload, { headers })
-
-/**
  * 上傳圖片
+ * @param {string} params.type 上傳類型
  * @param {formData} payload FormData
  * @returns {promise}
  */
-export const postImage = async (payload) =>
-  axios.post('/file/image', payload, { headers })
+export const postImage = async ({ params, payload }) =>
+  axios.post('/file/image', payload, { params, headers })

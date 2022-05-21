@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import globalData from '@/compatibles/data'
 import { patchProfile, patchPassword } from '@/apis/user'
-import { postAvatar } from '@/apis/file'
+import { postImage } from '@/apis/file'
 import { getErrorContent } from '@/utils/response'
 import swal from '@/plugins/swal'
 
@@ -57,7 +57,10 @@ const uploadAvatar = async () => {
   try {
     const formData = new FormData()
     formData.append('image', nicknameForm.value.avatarFile)
-    const { data } = await postAvatar(formData)
+    const { data } = await postImage({
+      params: { type: 'avatar' },
+      payload: formData
+    })
     return data
   } catch (e) {
     return Promise.reject(e)
