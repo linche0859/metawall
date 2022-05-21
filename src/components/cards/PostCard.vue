@@ -22,12 +22,28 @@ const emit = defineEmits([
   'post-like',
   'delete-like',
   'post-message',
-  'delete-post'
+  'delete-post',
+  'delete-message'
 ])
 const isMe = computed(() => {
   return user.value._id === post.value.user._id
 })
 
+/**
+ * 確認的 modal
+ * @param {string} title 標題
+ */
+const confirmSwal = async (title) => {
+  const result = await swal({
+    icon: 'question',
+    title,
+    showCancelButton: true,
+    confirmButtonText: '確定',
+    cancelButtonText: '取消',
+    timer: 0
+  })
+  return result
+}
 /**
  * 按讚事件
  */
@@ -95,7 +111,8 @@ const clickEditPostHandler = () => {
  * 點擊刪除貼文事件
  */
 const clickDeletePostHandler = async () => {
-  if (confirm('確定刪除這篇貼文？')) {
+  const result = await confirmSwal('確定要刪除這篇貼文？')
+  if (result.isConfirmed) {
     emit('delete-post', post.value._id)
     swal({ title: '刪除成功' })
   }
@@ -108,9 +125,14 @@ const clickEditMessageHandler = () => {
 }
 /**
  * 點擊刪除留言事件
+ * @param {string} messageId 留言編號
  */
-const clickDeleteMessageHandler = () => {
-  alert('刪除留言功能，施工中...')
+const clickDeleteMessageHandler = async (messageId) => {
+  const result = await confirmSwal('確定要刪除這則留言？')
+  if (result.isConfirmed) {
+    emit('delete-message', messageId, post.value._id)
+    swal({ title: '刪除成功' })
+  }
 }
 </script>
 
@@ -259,7 +281,7 @@ const clickDeleteMessageHandler = () => {
               <li class="py-2">
                 <button
                   class="block w-full rounded-md p-2 text-red-500 hover:bg-secondary/70"
-                  @click.stop="clickDeleteMessageHandler"
+                  @click.stop="clickDeleteMessageHandler(item._id)"
                   @mousedown.prevent
                 >
                   <i class="fas fa-trash-alt mr-1"></i>

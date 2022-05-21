@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
  * @param {string} icon
  * @param {string} confirmButtonText
  */
-export default (option = {}) => {
+export default async (option = {}) => {
   const currentOption = {
     icon: 'success',
     confirmButtonText: '確定',
@@ -15,5 +15,6 @@ export default (option = {}) => {
     confirmButtonColor: '#03438D'
   }
   Object.assign(currentOption, option)
-  Swal.fire(currentOption)
+  const result = await Swal.fire(currentOption)
+  return result
 }

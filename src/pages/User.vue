@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
-import { getUserPosts, deletePost } from '@/apis/post'
+import { getUserPosts, deletePost, deleteMessage } from '@/apis/post'
 import { getSpecificProfile } from '@/apis/user'
 import { getTracks, postTrack, deleteTrack } from '@/apis/track'
 import { getErrorContent } from '@/utils/response'
@@ -152,7 +152,7 @@ const deletePostHandler = async (postId) => {
   if (
     !postLoading.value &&
     !scrollLoading.value &&
-    posts.value.length < pageMeta.value.total
+    posts.value.length < pageMeta.value.total - 1
   ) {
     try {
       scrollLoading.value = true
@@ -171,6 +171,17 @@ const deletePostHandler = async (postId) => {
  */
 const postMessageHandler = ({ postId, message }) => {
   postMessage({ postId, message, posts: posts.value })
+}
+/**
+ * 刪除留言
+ * @param {string} messageId 留言編號
+ * @param {string} postId 貼文編號
+ */
+const deleteMessageHandler = async (messageId, postId) => {
+  const post = posts.value.find((item) => item._id === postId)
+  const index = post.messages.findIndex((item) => item._id === messageId)
+  if (~index) post.messages.splice(index, 1)
+  await deleteMessage(messageId)
 }
 /**
  * 切換排序事件
@@ -280,6 +291,7 @@ initData(props.userId)
         @post-message="postMessageHandler"
         @delete-like="deleteLikeHandler"
         @delete-post="deletePostHandler"
+        @delete-message="deleteMessageHandler"
       />
     </ul>
     <EmptyPostCard v-else />
