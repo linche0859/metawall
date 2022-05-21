@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
-import { getUserPosts } from '@/apis/post'
+import { getUserPosts, deletePost } from '@/apis/post'
 import { getSpecificProfile } from '@/apis/user'
 import { getTracks, postTrack, deleteTrack } from '@/apis/track'
 import { getErrorContent } from '@/utils/response'
@@ -62,8 +62,8 @@ const initData = async (userId) => {
     ])
     tracks.value = tracksData.data.map((item) => item.tracking)
     user.value = userData.data
-    posts.value = postData.data.data
-    pageMeta.value = postData.data.meta
+    posts.value = postData.data
+    pageMeta.value = postData.meta
   } finally {
     userLoading.value = false
     postLoading.value = false
@@ -75,7 +75,7 @@ const initData = async (userId) => {
  * @returns {promise}
  */
 const getPosts = async (userId) => {
-  const data = await getUserPosts(userId, {
+  const { data } = await getUserPosts(userId, {
     sort: sort.value,
     q: keyword.value,
     page: page.value
@@ -95,9 +95,7 @@ const setPosts = async ({ isScrolling = false, reset = false } = {}) => {
       page.value = 1
       posts.value = []
     }
-    const {
-      data: { data, meta }
-    } = await getPosts(props.userId)
+    const { data, meta } = await getPosts(props.userId)
     posts.value.push(...data)
     pageMeta.value = meta
   } finally {
@@ -141,6 +139,30 @@ const postLikeHandler = (postId) => {
  */
 const deleteLikeHandler = (postId) => {
   deleteLike({ postId, userId: me.value._id, posts: posts.value })
+}
+/**
+ * 刪除貼文
+ * @param {string} postId 貼文編號
+ */
+const deletePostHandler = async (postId) => {
+  const index = posts.value.findIndex((post) => post._id === postId)
+  if (~index) posts.value.splice(index, 1)
+  await deletePost(postId)
+  // 自動補一則新的貼文
+  if (
+    !postLoading.value &&
+    !scrollLoading.value &&
+    posts.value.length < pageMeta.value.total
+  ) {
+    try {
+      scrollLoading.value = true
+      const { data, meta } = await getPosts(props.userId)
+      posts.value.push(data.pop())
+      pageMeta.value = meta
+    } finally {
+      scrollLoading.value = false
+    }
+  }
 }
 /**
  * 新增貼文留言
@@ -257,6 +279,7 @@ initData(props.userId)
         @post-like="postLikeHandler"
         @post-message="postMessageHandler"
         @delete-like="deleteLikeHandler"
+        @delete-post="deletePostHandler"
       />
     </ul>
     <EmptyPostCard v-else />

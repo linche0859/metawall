@@ -95,7 +95,6 @@ const postMessageHandler = ({ postId, message }) => {
 const deletePostHandler = async (postId) => {
   const index = posts.value.findIndex((post) => post._id === postId)
   if (~index) posts.value.splice(index, 1)
-
   await deletePost(postId)
   // 自動補一則新的貼文
   if (
