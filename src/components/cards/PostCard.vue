@@ -240,7 +240,12 @@ const clickDeleteMessageHandler = async (messageId) => {
         </Button>
       </div>
     </div>
-    <ul v-if="post.messages.length" class="mt-[18px] space-y-4 text-black-100">
+    <transition-group
+      v-if="post.messages.length"
+      tag="ul"
+      name="slide"
+      class="mt-[18px] space-y-4 text-black-100"
+    >
       <li
         v-for="item in post.messages"
         :key="item._id"
@@ -295,6 +300,6 @@ const clickDeleteMessageHandler = async (messageId) => {
         </div>
         <p class="break-all pl-[52px]">{{ item.content }}</p>
       </li>
-    </ul>
+    </transition-group>
   </li>
 </template>

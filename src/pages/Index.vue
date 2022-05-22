@@ -160,7 +160,12 @@ setPosts()
   />
   <empty-post-card v-if="loading">載入中...</empty-post-card>
   <template v-else>
-    <ul v-if="posts.length" class="space-y-4">
+    <transition-group
+      v-if="posts.length"
+      tag="ul"
+      name="fade"
+      class="space-y-4"
+    >
       <PostCard
         v-for="post in posts"
         :key="post._id"
@@ -171,7 +176,7 @@ setPosts()
         @delete-post="deletePostHandler"
         @delete-message="deleteMessageHandler"
       />
-    </ul>
+    </transition-group>
     <EmptyPostCard v-else />
   </template>
   <div v-if="scrollLoading" class="mt-5 flex justify-center">
