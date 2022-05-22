@@ -1,6 +1,7 @@
 <script setup>
 import { ref, toRefs, computed } from 'vue'
 import { dayFormat } from '@/plugins/day'
+import { DOMSanitize } from '@/plugins/dompurify'
 import { postLike, deleteLike, postMessage } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
 import globalData from '@/compatibles/data'
@@ -184,9 +185,10 @@ const clickDeleteMessageHandler = async (messageId) => {
         </ul>
       </more-popover>
     </div>
-    <p class="text-black-100">
-      {{ post.content }}
-    </p>
+    <p
+      class="whitespace-pre-wrap text-black-100"
+      v-html="DOMSanitize(post.content)"
+    ></p>
     <img
       v-if="post.image"
       v-img-fallback
