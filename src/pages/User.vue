@@ -7,7 +7,7 @@ import { getTracks, postTrack, deleteTrack } from '@/apis/track'
 import { getErrorContent } from '@/utils/response'
 import { convertToComma } from '@/utils/format'
 import { postLike, deleteLike, postMessage } from '@/compatibles/posts/method'
-import globalData from '@/compatibles/data'
+import { user as me } from '@/compatibles/data'
 import swal from '@/plugins/swal'
 import PostFilter from '@/components/filters/PostFilter.vue'
 import PostCard from '@/components/cards/PostCard.vue'
@@ -24,7 +24,6 @@ const tracks = ref([])
 const posts = ref([])
 const user = ref({})
 const pageMeta = ref({})
-const { user: me } = globalData()
 const props = defineProps({
   userId: {
     type: String,

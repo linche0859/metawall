@@ -1,12 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import globalData from '@/compatibles/data'
+import { user } from '@/compatibles/data'
 import { patchProfile, patchPassword } from '@/apis/user'
 import { postImage } from '@/apis/file'
 import { getErrorContent } from '@/utils/response'
 import swal from '@/plugins/swal'
 
-const { user } = globalData()
 const loading = ref(false)
 const tab = ref('nickname')
 const nicknameError = ref('')

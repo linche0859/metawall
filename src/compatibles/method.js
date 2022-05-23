@@ -1,6 +1,4 @@
-import globalData from '@/compatibles/data'
-
-const { cookieToken, user } = globalData()
+import { cookieToken, user } from '@/compatibles/data'
 
 /**
  * 清除使用者資訊

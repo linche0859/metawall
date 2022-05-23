@@ -2,7 +2,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { getPosts, deletePost, deleteMessage } from '@/apis/post'
 import { postLike, deleteLike, postMessage } from '@/compatibles/posts/method'
-import globalData from '@/compatibles/data'
+import { user } from '@/compatibles/data'
 import PostCard from '@/components/cards/PostCard.vue'
 import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
 import PostFilter from '@/components/filters/PostFilter.vue'
@@ -15,7 +15,6 @@ const keyword = ref('')
 const page = ref(1)
 const posts = ref([])
 const pageMeta = ref({})
-const { user } = globalData()
 
 /**
  * 取得貼文列表

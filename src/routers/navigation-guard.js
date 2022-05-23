@@ -1,13 +1,12 @@
 import { getProfile, getUserCheck } from '@/apis/user'
 import { getCookieToken } from '@/compatibles/method'
-import globalData from '@/compatibles/data'
+import { user } from '@/compatibles/data'
 
 const checkAuth = async (to, from) => {
   if (!getCookieToken()) {
     return { name: 'Login' }
   }
   try {
-    const { user } = globalData()
     if (user.value._id) return true
 
     const { data } = await getProfile()

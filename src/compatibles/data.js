@@ -2,9 +2,5 @@
 import { ref } from 'vue'
 import { useCookies } from '@vueuse/integrations/useCookies'
 
-const cookieToken = useCookies(['token'])
-const user = ref({})
-
-export default () => {
-  return { cookieToken, user }
-}
+export const cookieToken = useCookies(['token'])
+export const user = ref({})

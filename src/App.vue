@@ -1,12 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import globalData from '@/compatibles/data'
+import { user } from '@/compatibles/data'
 
 const noLayoutRoutes = ['Login', 'Register', 'NotFound']
 const route = useRoute()
 const showLayout = ref(false)
-const { user } = globalData()
 
 watch(
   () => route.name,

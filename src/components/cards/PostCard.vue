@@ -4,7 +4,7 @@ import { dayFormat } from '@/plugins/day'
 import { DOMSanitize } from '@/plugins/dompurify'
 import { postLike, deleteLike, postMessage } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
-import globalData from '@/compatibles/data'
+import { user } from '@/compatibles/data'
 import swal from '@/plugins/swal'
 import MorePopover from '@/components/popovers/MorePopover.vue'
 
@@ -18,7 +18,6 @@ const props = defineProps({
 const loading = ref(false)
 const message = ref('')
 const { post } = toRefs(props)
-const { user } = globalData()
 const emit = defineEmits([
   'post-like',
   'delete-like',
