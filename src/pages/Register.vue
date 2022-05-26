@@ -1,8 +1,14 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { postSignUp } from '@/apis/user'
-import { setCookieToke, clearUserInfo } from '@/compatibles/method'
+import { authError } from '@/compatibles/data'
+import {
+  clearUserInfo,
+  setCookieToken,
+  setCookieRedirectUrl
+} from '@/compatibles/method'
+import { redirectToGoogle } from '@/utils/auth'
 
 const loading = ref(false)
 const name = ref('')
@@ -12,6 +18,7 @@ const error = ref('')
 const nameError = ref('')
 const emailError = ref('')
 const passwordError = ref('')
+const route = useRoute()
 const router = useRouter()
 
 /**
@@ -29,14 +36,12 @@ const submit = async () => {
       email: email.value,
       password: password.value
     })
-    setCookieToke(data.token)
+    setCookieToken(data.token)
     router.push({ name: 'Index' })
   } catch (e) {
     const { message } = e
     if (typeof message === 'object') {
-      console.log(message)
       Object.keys(message).forEach((key) => {
-        console.log('key', key)
         switch (key) {
           case 'name':
             nameError.value = message[key]
@@ -56,7 +61,18 @@ const submit = async () => {
     loading.value = false
   }
 }
+/**
+ * 使用 google 帳號註冊
+ */
+const signUpWithGoogle = () => {
+  setCookieRedirectUrl(route.name)
+  redirectToGoogle()
+}
 
+if (authError.value) {
+  error.value = authError.value
+  authError.value = ''
+}
 clearUserInfo()
 </script>
 
@@ -79,6 +95,22 @@ clearUserInfo()
         >
           註冊
         </p>
+        <button
+          class="mb-4 flex w-full items-center justify-center rounded-lg border-2 border-black-100 bg-white font-azeret font-bold leading-[50px] text-black-100 shadow-200"
+          @click="signUpWithGoogle"
+        >
+          <img
+            src="@/assets/images/login/google.png"
+            alt="google"
+            class="mr-2"
+          />
+          Google 帳號註冊
+        </button>
+        <div class="mb-4 flex items-center text-black-100">
+          <hr class="flex-grow border border-black-100" />
+          <p class="flex-shrink-0 px-4">或</p>
+          <hr class="flex-grow border border-black-100" />
+        </div>
         <form method="post" @submit.prevent="submit">
           <input
             type="text"

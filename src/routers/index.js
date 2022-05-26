@@ -6,7 +6,7 @@ const routes = [
     path: '/',
     name: 'Index',
     component: () => import('@/pages/Index.vue'),
-    beforeEnter: navGuard.beforeEnter.checkAuth
+    beforeEnter: navGuard.beforeEnter.checkToken
   },
   {
     path: '/login',

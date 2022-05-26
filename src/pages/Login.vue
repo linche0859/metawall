@@ -1,13 +1,20 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { postSignIn } from '@/apis/user'
-import { setCookieToke, clearUserInfo } from '@/compatibles/method'
+import { authError } from '@/compatibles/data'
+import {
+  clearUserInfo,
+  setCookieToken,
+  setCookieRedirectUrl
+} from '@/compatibles/method'
+import { redirectToGoogle } from '@/utils/auth'
 
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
 const error = ref('')
+const route = useRoute()
 const router = useRouter()
 
 /**
@@ -21,7 +28,7 @@ const submit = async () => {
       email: email.value,
       password: password.value
     })
-    setCookieToke(data.token)
+    setCookieToken(data.token)
     router.push({ name: 'Index' })
   } catch (e) {
     error.value = e.message
@@ -31,7 +38,18 @@ const submit = async () => {
     password.value = ''
   }
 }
+/**
+ * 使用 google 帳號登入
+ */
+const signInWithGoogle = () => {
+  setCookieRedirectUrl(route.name)
+  redirectToGoogle()
+}
 
+if (authError.value) {
+  error.value = authError.value
+  authError.value = ''
+}
 clearUserInfo()
 </script>
 
@@ -54,6 +72,22 @@ clearUserInfo()
         >
           到元宇宙展開全新社交圈
         </p>
+        <button
+          class="mb-4 flex w-full items-center justify-center rounded-lg border-2 border-black-100 bg-white font-azeret font-bold leading-[50px] text-black-100 shadow-200"
+          @click="signInWithGoogle"
+        >
+          <img
+            src="@/assets/images/login/google.png"
+            alt="google"
+            class="mr-2"
+          />
+          Google 帳號登入
+        </button>
+        <div class="mb-4 flex items-center text-black-100">
+          <hr class="flex-grow border border-black-100" />
+          <p class="flex-shrink-0 px-4">或</p>
+          <hr class="flex-grow border border-black-100" />
+        </div>
         <form method="post" @submit.prevent="submit">
           <input
             type="email"

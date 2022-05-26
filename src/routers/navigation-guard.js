@@ -1,6 +1,10 @@
 import { getProfile, getUserCheck } from '@/apis/user'
-import { getCookieToken } from '@/compatibles/method'
-import { user } from '@/compatibles/data'
+import {
+  getCookieToken,
+  getCookieRedirectUrl,
+  setCookieToken
+} from '@/compatibles/method'
+import { user, authError } from '@/compatibles/data'
 
 const checkAuth = async (to, from) => {
   if (!getCookieToken()) {
@@ -29,9 +33,25 @@ const checkUser = async (to, from) => {
   }
 }
 
+const checkToken = async (to, from) => {
+  const {
+    query: { token, error }
+  } = to
+  if (error) {
+    authError.value = decodeURIComponent(error)
+    return { name: getCookieRedirectUrl() || 'Login' }
+  }
+  if (token) {
+    setCookieToken(token)
+  }
+  const auth = await checkAuth(to, from)
+  return auth
+}
+
 export default {
   beforeEnter: {
     checkAuth,
-    checkUser
+    checkUser,
+    checkToken
   }
 }
