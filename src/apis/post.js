@@ -29,6 +29,20 @@ export const getUserPosts = (userId, params) =>
 export const getLikedPosts = () => axios.get('/posts/like')
 
 /**
+ * 取得特定的貼文
+ * @param {string} postId 貼文編號
+ * @returns {promise}
+ */
+export const getSpecificPost = (postId) => axios.get(`/post/${postId}`)
+
+/**
+ * 驗證是否為有效的貼文
+ * @param {string} postId 貼文編號
+ * @returns {promise}
+ */
+export const getPostCheck = (postId) => axios.get(`/post/${postId}/check`)
+
+/**
  * 新增貼文
  * @param {object} payload 貼文資料
  * @returns {promise}

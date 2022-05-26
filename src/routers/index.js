@@ -50,6 +50,13 @@ const routes = [
     beforeEnter: navGuard.beforeEnter.checkUser
   },
   {
+    path: '/post/:postId',
+    name: 'SinglePost',
+    component: () => import('@/pages/SinglePost.vue'),
+    props: true,
+    beforeEnter: navGuard.beforeEnter.checkPost
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/pages/NotFound.vue')

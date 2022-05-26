@@ -1,7 +1,13 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { getPosts, deletePost, deleteMessage } from '@/apis/post'
-import { postLike, deleteLike, postMessage } from '@/compatibles/posts/method'
+import { getPosts } from '@/apis/post'
+import {
+  postLike,
+  deleteLike,
+  postMessage,
+  deleteMessage,
+  deletePost
+} from '@/compatibles/posts/method'
 import { user } from '@/compatibles/data'
 import PostCard from '@/components/cards/PostCard.vue'
 import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
@@ -88,39 +94,35 @@ const postMessageHandler = ({ postId, message }) => {
   postMessage({ postId, message, posts: posts.value })
 }
 /**
- * 刪除貼文
- * @param {string} postId 貼文編號
- */
-const deletePostHandler = async (postId) => {
-  const index = posts.value.findIndex((post) => post._id === postId)
-  if (~index) posts.value.splice(index, 1)
-  await deletePost(postId)
-  // 自動補一則新的貼文
-  if (
-    !loading.value &&
-    !scrollLoading.value &&
-    posts.value.length < pageMeta.value.total - 1
-  ) {
-    try {
-      scrollLoading.value = true
-      const { data, meta } = await fetchPosts()
-      posts.value.push(data.pop())
-      pageMeta.value = meta
-    } finally {
-      scrollLoading.value = false
-    }
-  }
-}
-/**
  * 刪除留言
  * @param {string} messageId 留言編號
  * @param {string} postId 貼文編號
  */
-const deleteMessageHandler = async (messageId, postId) => {
-  const post = posts.value.find((item) => item._id === postId)
-  const index = post.messages.findIndex((item) => item._id === messageId)
-  if (~index) post.messages.splice(index, 1)
-  await deleteMessage(messageId)
+const deleteMessageHandler = (messageId, postId) => {
+  deleteMessage({ postId, messageId, posts: posts.value })
+}
+/**
+ * 刪除貼文
+ * @param {string} postId 貼文編號
+ */
+const deletePostHandler = (postId) => {
+  deletePost({ postId, posts: posts.value }, async () => {
+    // 自動補一則新的貼文
+    if (
+      !loading.value &&
+      !scrollLoading.value &&
+      posts.value.length < pageMeta.value.total - 1
+    ) {
+      try {
+        scrollLoading.value = true
+        const { data, meta } = await fetchPosts()
+        posts.value.push(data.pop())
+        pageMeta.value = meta
+      } finally {
+        scrollLoading.value = false
+      }
+    }
+  })
 }
 /**
  * 滾動視窗事件

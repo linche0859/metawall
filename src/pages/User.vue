@@ -1,12 +1,18 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { onBeforeRouteUpdate } from 'vue-router'
-import { getUserPosts, deletePost, deleteMessage } from '@/apis/post'
+import { getUserPosts } from '@/apis/post'
 import { getSpecificProfile } from '@/apis/user'
 import { getTracks, postTrack, deleteTrack } from '@/apis/track'
 import { getErrorContent } from '@/utils/response'
 import { convertToComma } from '@/utils/format'
-import { postLike, deleteLike, postMessage } from '@/compatibles/posts/method'
+import {
+  postLike,
+  deleteLike,
+  postMessage,
+  deleteMessage,
+  deletePost
+} from '@/compatibles/posts/method'
 import { user as me } from '@/compatibles/data'
 import swal from '@/plugins/swal'
 import PostFilter from '@/components/filters/PostFilter.vue'
@@ -143,25 +149,24 @@ const deleteLikeHandler = (postId) => {
  * 刪除貼文
  * @param {string} postId 貼文編號
  */
-const deletePostHandler = async (postId) => {
-  const index = posts.value.findIndex((post) => post._id === postId)
-  if (~index) posts.value.splice(index, 1)
-  await deletePost(postId)
-  // 自動補一則新的貼文
-  if (
-    !postLoading.value &&
-    !scrollLoading.value &&
-    posts.value.length < pageMeta.value.total - 1
-  ) {
-    try {
-      scrollLoading.value = true
-      const { data, meta } = await getPosts(props.userId)
-      posts.value.push(data.pop())
-      pageMeta.value = meta
-    } finally {
-      scrollLoading.value = false
+const deletePostHandler = (postId) => {
+  deletePost({ postId, posts: posts.value }, async () => {
+    // 自動補一則新的貼文
+    if (
+      !postLoading.value &&
+      !scrollLoading.value &&
+      posts.value.length < pageMeta.value.total - 1
+    ) {
+      try {
+        scrollLoading.value = true
+        const { data, meta } = await getPosts(props.userId)
+        posts.value.push(data.pop())
+        pageMeta.value = meta
+      } finally {
+        scrollLoading.value = false
+      }
     }
-  }
+  })
 }
 /**
  * 新增貼文留言
@@ -176,11 +181,8 @@ const postMessageHandler = ({ postId, message }) => {
  * @param {string} messageId 留言編號
  * @param {string} postId 貼文編號
  */
-const deleteMessageHandler = async (messageId, postId) => {
-  const post = posts.value.find((item) => item._id === postId)
-  const index = post.messages.findIndex((item) => item._id === messageId)
-  if (~index) post.messages.splice(index, 1)
-  await deleteMessage(messageId)
+const deleteMessageHandler = (messageId, postId) => {
+  deleteMessage({ postId, messageId, posts: posts.value })
 }
 /**
  * 切換排序事件

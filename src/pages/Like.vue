@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { getLikedPosts, deleteLike } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
 import { dayFormat } from '@/plugins/day'
+import { DOMSanitize } from '@/plugins/dompurify'
 import swal from '@/plugins/swal'
 import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
 
@@ -62,12 +63,12 @@ setLikes()
           v-img-avatar-fallback
           :src="item.user.avatar"
           alt="avatar"
-          class="mr-4 h-10 w-10 flex-shrink-0 rounded-full object-cover"
+          class="mr-4 h-10 w-10 flex-shrink-0 self-start rounded-full object-cover"
         />
         <div class="flex-grow pr-5">
           <router-link
             :to="{ name: 'User', params: { userId: item.user._id } }"
-            class="font-bold text-black-100 hover:text-primary hover:underline"
+            class="inline-block font-bold text-black-100 hover:text-primary hover:underline"
             >{{ item.user.name }}</router-link
           >
           <div class="text-sm text-gray-300">
@@ -75,6 +76,10 @@ setLikes()
               dayFormat(item.createdAt)
             }}</span>
           </div>
+          <p
+            class="max-h-6 whitespace-pre-wrap text-black-100 line-clamp-1"
+            v-html="DOMSanitize(item.content)"
+          ></p>
         </div>
         <button
           class="mr-5 flex flex-shrink-0 flex-col items-center text-xl leading-none text-primary lg:mr-[37px]"
@@ -84,7 +89,7 @@ setLikes()
           <span class="mt-1 text-sm font-bold text-black-100">取消</span>
         </button>
         <router-link
-          :to="{ name: 'User', params: { userId: item.user._id } }"
+          :to="{ name: 'SinglePost', params: { postId: item._id } }"
           class="flex flex-shrink-0 flex-col items-center text-xl leading-none text-black-100"
         >
           <i class="fa-regular fa-circle-right"></i>

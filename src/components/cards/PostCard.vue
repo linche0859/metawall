@@ -2,7 +2,7 @@
 import { ref, toRefs, computed } from 'vue'
 import { dayFormat } from '@/plugins/day'
 import { DOMSanitize } from '@/plugins/dompurify'
-import { postLike, deleteLike, postMessage } from '@/apis/post'
+import { postLike, deleteLike, postMessage, deleteMessage } from '@/apis/post'
 import { getErrorContent } from '@/utils/response'
 import { user } from '@/compatibles/data'
 import swal from '@/plugins/swal'
@@ -116,7 +116,6 @@ const clickDeletePostHandler = async () => {
   const result = await confirmSwal('確定要刪除這篇貼文？')
   if (result.isConfirmed) {
     emit('delete-post', post.value._id)
-    swal({ title: '刪除成功' })
   }
 }
 /**
@@ -132,8 +131,8 @@ const clickEditMessageHandler = () => {
 const clickDeleteMessageHandler = async (messageId) => {
   const result = await confirmSwal('確定要刪除這則留言？')
   if (result.isConfirmed) {
+    deleteMessage(messageId)
     emit('delete-message', messageId, post.value._id)
-    swal({ title: '刪除成功' })
   }
 }
 </script>

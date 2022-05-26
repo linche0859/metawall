@@ -1,4 +1,5 @@
 import { getProfile, getUserCheck } from '@/apis/user'
+import { getPostCheck } from '@/apis/post'
 import {
   getCookieToken,
   getCookieRedirectUrl,
@@ -48,10 +49,23 @@ const checkToken = async (to, from) => {
   return auth
 }
 
+const checkPost = async (to, from) => {
+  try {
+    const auth = await checkAuth(to, from)
+    if (auth === true) {
+      await getPostCheck(to.params.postId)
+      return true
+    }
+  } catch (e) {
+    return { name: 'NotFound' }
+  }
+}
+
 export default {
   beforeEnter: {
     checkAuth,
     checkUser,
-    checkToken
+    checkToken,
+    checkPost
   }
 }
