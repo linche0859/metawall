@@ -64,7 +64,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.VITE_PUBLISH_PATH),
+  history: createWebHistory(),
   routes
 })
 
