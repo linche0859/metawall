@@ -1,20 +1,15 @@
 <script setup>
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { postSignIn } from '@/apis/user'
 import { authError } from '@/compatibles/data'
-import {
-  clearUserInfo,
-  setCookieToken,
-  setCookieRedirectUrl
-} from '@/compatibles/method'
-import { redirectToGoogle } from '@/utils/auth'
+import { clearUserInfo, setCookieToken } from '@/compatibles/method'
+import GoogleAuthButton from '@/components/buttons/GoogleAuthButton.vue'
 
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
 const error = ref('')
-const route = useRoute()
 const router = useRouter()
 
 /**
@@ -37,13 +32,6 @@ const submit = async () => {
     email.value = ''
     password.value = ''
   }
-}
-/**
- * 使用 google 帳號登入
- */
-const signInWithGoogle = () => {
-  setCookieRedirectUrl(route.name)
-  redirectToGoogle()
 }
 
 if (authError.value) {
@@ -72,17 +60,7 @@ clearUserInfo()
         >
           到元宇宙展開全新社交圈
         </p>
-        <button
-          class="mb-4 flex w-full items-center justify-center rounded-lg border-2 border-black-100 bg-white font-azeret font-bold leading-[50px] text-black-100 shadow-200"
-          @click="signInWithGoogle"
-        >
-          <img
-            src="@/assets/images/login/google.png"
-            alt="google"
-            class="mr-2"
-          />
-          Google 帳號登入
-        </button>
+        <GoogleAuthButton class="mb-4" />
         <div class="mb-4 flex items-center text-black-100">
           <hr class="flex-grow border border-black-100" />
           <p class="flex-shrink-0 px-4">或</p>

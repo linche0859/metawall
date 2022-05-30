@@ -1,14 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { postSignUp } from '@/apis/user'
 import { authError } from '@/compatibles/data'
-import {
-  clearUserInfo,
-  setCookieToken,
-  setCookieRedirectUrl
-} from '@/compatibles/method'
-import { redirectToGoogle } from '@/utils/auth'
+import { clearUserInfo, setCookieToken } from '@/compatibles/method'
+import GoogleAuthButton from '@/components/buttons/GoogleAuthButton.vue'
 
 const loading = ref(false)
 const name = ref('')
@@ -18,7 +14,6 @@ const error = ref('')
 const nameError = ref('')
 const emailError = ref('')
 const passwordError = ref('')
-const route = useRoute()
 const router = useRouter()
 
 /**
@@ -61,13 +56,6 @@ const submit = async () => {
     loading.value = false
   }
 }
-/**
- * 使用 google 帳號註冊
- */
-const signUpWithGoogle = () => {
-  setCookieRedirectUrl(route.name)
-  redirectToGoogle()
-}
 
 if (authError.value) {
   error.value = authError.value
@@ -95,17 +83,7 @@ clearUserInfo()
         >
           註冊
         </p>
-        <button
-          class="mb-4 flex w-full items-center justify-center rounded-lg border-2 border-black-100 bg-white font-azeret font-bold leading-[50px] text-black-100 shadow-200"
-          @click="signUpWithGoogle"
-        >
-          <img
-            src="@/assets/images/login/google.png"
-            alt="google"
-            class="mr-2"
-          />
-          Google 帳號註冊
-        </button>
+        <GoogleAuthButton class="mb-4" />
         <div class="mb-4 flex items-center text-black-100">
           <hr class="flex-grow border border-black-100" />
           <p class="flex-shrink-0 px-4">或</p>
