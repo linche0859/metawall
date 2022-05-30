@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { user } from '@/compatibles/data'
 
-const noLayoutRoutes = ['Login', 'Register', 'NotFound']
+const noLayoutRoutes = ['Login', 'Register', 'NotFound', 'OAuth']
 const route = useRoute()
 const showLayout = ref(false)
 

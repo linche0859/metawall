@@ -6,7 +6,7 @@ const routes = [
     path: '/',
     name: 'Index',
     component: () => import('@/pages/Index.vue'),
-    beforeEnter: navGuard.beforeEnter.checkToken
+    beforeEnter: navGuard.beforeEnter.checkAuth
   },
   {
     path: '/login',
@@ -17,6 +17,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('@/pages/Register.vue')
+  },
+  {
+    path: '/oauth',
+    name: 'OAuth',
+    component: () => import('@/pages/OAuth.vue')
   },
   {
     path: '/profile',

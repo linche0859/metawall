@@ -141,7 +141,6 @@ const scrollWindowHandler = () => {
 }
 
 onMounted(() => {
-  window.history.replaceState({}, document.title, location.pathname)
   window.addEventListener('scroll', scrollWindowHandler)
 })
 
