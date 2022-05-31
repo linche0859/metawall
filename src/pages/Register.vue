@@ -5,6 +5,7 @@ import { postSignUp } from '@/apis/user'
 import { authError } from '@/compatibles/data'
 import { clearUserInfo, setCookieToken } from '@/compatibles/method'
 import GoogleAuthButton from '@/components/buttons/GoogleAuthButton.vue'
+import FacebookAuthButton from '@/components/buttons/FacebookAuthButton.vue'
 
 const loading = ref(false)
 const name = ref('')
@@ -84,6 +85,7 @@ clearUserInfo()
           註冊
         </p>
         <GoogleAuthButton class="mb-4" />
+        <FacebookAuthButton class="mb-4" />
         <div class="mb-4 flex items-center text-black-100">
           <hr class="flex-grow border border-black-100" />
           <p class="flex-shrink-0 px-4">或</p>
