@@ -2,9 +2,10 @@ import { deletePost as apiDeletePost } from '@/apis/post'
 
 /**
  * 按讚貼文
- * @param {string} postId 貼文編號
- * @param {string} userId 會員編號
- * @param {array} posts 貼文列表
+ * @param {object} payload 參數
+ * @param {string} payload.postId 貼文編號
+ * @param {string} payload.userId 會員編號
+ * @param {Array.<Post>} payload.posts 貼文列表
  */
 export const postLike = ({ postId, userId, posts }) => {
   const post = posts.find((item) => item._id === postId)
@@ -13,9 +14,10 @@ export const postLike = ({ postId, userId, posts }) => {
 
 /**
  * 移除貼文的按讚
- * @param {string} postId 貼文編號
- * @param {string} userId 會員編號
- * @param {array} posts 貼文列表
+ * @param {object} payload 參數
+ * @param {string} payload.postId 貼文編號
+ * @param {string} payload.userId 會員編號
+ * @param {Array.<Post>} payload.posts 貼文列表
  */
 export const deleteLike = ({ postId, userId, posts }) => {
   const post = posts.find((item) => item._id === postId)
@@ -25,9 +27,10 @@ export const deleteLike = ({ postId, userId, posts }) => {
 
 /**
  * 新增貼文留言
- * @param {string} postId 貼文編號
- * @param {object} message 留言資訊
- * @param {array} posts 貼文列表
+ * @param {object} payload 參數
+ * @param {string} payload.postId 貼文編號
+ * @param {object} payload.message 留言資訊
+ * @param {Array.<Post>} payload.posts 貼文列表
  */
 export const postMessage = ({ postId, message, posts }) => {
   const post = posts.find((item) => item._id === postId)
@@ -36,9 +39,10 @@ export const postMessage = ({ postId, message, posts }) => {
 
 /**
  * 刪除貼文留言
- * @param {string} postId 貼文編號
- * @param {object} messageId 留言編號
- * @param {array} posts 貼文列表
+ * @param {object} payload 參數
+ * @param {string} payload.postId 貼文編號
+ * @param {object} payload.messageId 留言編號
+ * @param {Array.<Post>} payload.posts 貼文列表
  */
 export const deleteMessage = ({ postId, messageId, posts }) => {
   const post = posts.find((item) => item._id === postId)
@@ -47,10 +51,15 @@ export const deleteMessage = ({ postId, messageId, posts }) => {
 }
 
 /**
+ * 刪除貼文後的回呼函式
+ * @callback deletePostCallback
+ */
+/**
  * 刪除貼文
- * @param {string} postId 貼文編號
- * @param {array} posts 貼文列表
- * @param {function} callback 刪除貼文後的回呼函式
+ * @param {object} payload 參數
+ * @param {string} payload.postId 貼文編號
+ * @param {array} payload.posts 貼文列表
+ * @param {deletePostCallback} callback 刪除貼文後的回呼函式
  */
 export const deletePost = async ({ postId, posts }, callback = () => {}) => {
   const index = posts.findIndex((post) => post._id === postId)

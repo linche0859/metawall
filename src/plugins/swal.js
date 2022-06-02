@@ -2,10 +2,13 @@ import Swal from 'sweetalert2'
 
 /**
  * 提醒彈窗
- * @param {string} title
- * @param {string} text
- * @param {string} icon
- * @param {string} confirmButtonText
+ * @async
+ * @param {object} option 設定參數
+ * @param {string} [option.title] 標題
+ * @param {string} [option.text] 說明內容
+ * @param {string} [option.icon] 圖示
+ * @param {string} [option.confirmButtonText] 確認按鈕文字
+ * @return {Promise.<SweetAlertResult>}
  */
 export default async (option = {}) => {
   const currentOption = {

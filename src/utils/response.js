@@ -1,6 +1,6 @@
 /**
  * 取得回傳的錯誤訊息
- * @param {object} error 錯誤資訊
+ * @param {ApiErrorResponse} error 錯誤資訊
  * @returns {string}
  */
 export const getErrorContent = (error) => {
