@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { user } from '@/compatibles/data'
 import { patchProfile, patchPassword } from '@/apis/user'
 import { postImage } from '@/apis/file'
@@ -10,14 +10,14 @@ const loading = ref(false)
 const tab = ref('nickname')
 const nicknameError = ref('')
 const passwordError = ref('')
-const tabs = [
+const tabs = ref([
   { id: 'nickname', title: '暱稱修改' },
   { id: 'password', title: '重設密碼' }
-]
-const genders = [
+])
+const genders = ref([
   { id: 'male', title: '男性' },
   { id: 'female', title: '女性' }
-]
+])
 const nicknameForm = ref({
   avatar: '',
   name: '',
@@ -29,6 +29,16 @@ const passwordForm = ref({
   confirmPassword: ''
 })
 const inputFile = ref(null)
+
+/**
+ * 渲染的標籤列表
+ * @returns {array}
+ */
+const renderTabs = computed(() => {
+  if (user.value.thirdAuth)
+    return tabs.value.filter((item) => item.id !== 'password')
+  return tabs.value
+})
 
 nicknameForm.value.avatar = user.value.avatar
 nicknameForm.value.name = user.value.name
@@ -127,7 +137,7 @@ const submitPasswordHandler = async () => {
   </h2>
   <div class="flex px-4">
     <button
-      v-for="item in tabs"
+      v-for="item in renderTabs"
       :key="item.id"
       class="rounded-t-lg border-x-2 border-t-2 border-black-100 py-2 px-6"
       :class="item.id === tab ? 'bg-black-100 text-white' : 'text-black-100'"
