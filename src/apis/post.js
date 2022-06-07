@@ -8,7 +8,7 @@ import axios from '@/plugins/axios'
  * @param {string} params.q 關鍵字
  * @param {number} params.page 頁碼
  * @param {number} params.limit 頁筆數
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const getPosts = (params) => axios.get('/posts', { params })
 
@@ -21,7 +21,7 @@ export const getPosts = (params) => axios.get('/posts', { params })
  * @param {string} params.q 關鍵字
  * @param {number} params.page 頁碼
  * @param {number} params.limit 頁筆數
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const getUserPosts = (userId, params) =>
   axios.get(`/posts/${userId}/user`, { params })
@@ -29,7 +29,7 @@ export const getUserPosts = (userId, params) =>
 /**
  * 取得按讚的貼文
  * @async
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const getLikedPosts = () => axios.get('/posts/like')
 
@@ -37,7 +37,7 @@ export const getLikedPosts = () => axios.get('/posts/like')
  * 取得特定的貼文
  * @async
  * @param {string} postId 貼文編號
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const getSpecificPost = (postId) => axios.get(`/post/${postId}`)
 
@@ -45,7 +45,7 @@ export const getSpecificPost = (postId) => axios.get(`/post/${postId}`)
  * 驗證是否為有效的貼文
  * @async
  * @param {string} postId 貼文編號
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const getPostCheck = (postId) => axios.get(`/post/${postId}/check`)
 
@@ -53,7 +53,7 @@ export const getPostCheck = (postId) => axios.get(`/post/${postId}/check`)
  * 新增貼文
  * @async
  * @param {object} payload 貼文資料
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const postOnePost = (payload) => axios.post('/post', payload)
 
@@ -61,7 +61,7 @@ export const postOnePost = (payload) => axios.post('/post', payload)
  * 按讚貼文
  * @async
  * @param {string} postId 貼文編號
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const postLike = (postId) => axios.post(`/post/${postId}/like`)
 
@@ -69,7 +69,7 @@ export const postLike = (postId) => axios.post(`/post/${postId}/like`)
  * 移除貼文的按讚
  * @async
  * @param {string} postId 貼文編號
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const deleteLike = (postId) => axios.delete(`/post/${postId}/like`)
 
@@ -79,7 +79,7 @@ export const deleteLike = (postId) => axios.delete(`/post/${postId}/like`)
  * @param {string} postId 貼文編號
  * @param {object} payload 請求內容
  * @param {object} payload.content 留言內容
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const postMessage = (postId, payload) =>
   axios.post(`/post/${postId}/message`, payload)
@@ -88,7 +88,7 @@ export const postMessage = (postId, payload) =>
  * 刪除特定的貼文
  * @async
  * @param {string} postId 貼文編號
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const deletePost = (postId) => axios.delete(`/post/${postId}`)
 
@@ -96,7 +96,7 @@ export const deletePost = (postId) => axios.delete(`/post/${postId}`)
  * 刪除特定的留言
  * @async
  * @param {string} messageId 留言編號
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const deleteMessage = (messageId) =>
   axios.delete(`/post/${messageId}/message`)

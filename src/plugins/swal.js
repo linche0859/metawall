@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
  * @param {string} [option.text] 說明內容
  * @param {string} [option.icon] 圖示
  * @param {string} [option.confirmButtonText] 確認按鈕文字
- * @return {Promise.<SweetAlertResult>}
+ * @return {Promise<SweetAlertResult>}
  */
 export default async (option = {}) => {
   const currentOption = {

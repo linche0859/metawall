@@ -11,7 +11,7 @@ const headers = {
  * @param {object} payload.params query string
  * @param {string} payload.params.type 上傳類型
  * @param {FormData} payload.payload FormData
- * @returns {Promise.<ApiResponse>}
+ * @returns {Promise<ApiResponse>}
  */
 export const postImage = async ({ params, payload }) =>
   axios.post('/file/image', payload, { params, headers })

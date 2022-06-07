@@ -33,7 +33,7 @@ const isMe = computed(() => {
  * 確認的 modal
  * @async
  * @param {string} title 標題
- * @returns {Promise.<Swal>}
+ * @returns {Promise<Swal>}
  */
 const confirmSwal = async (title) => {
   const result = await swal({
