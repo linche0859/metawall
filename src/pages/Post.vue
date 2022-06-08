@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { postOnePost } from '@/apis/post'
 import { postImage } from '@/apis/file'
 import { getErrorContent } from '@/utils/response'
@@ -11,6 +12,7 @@ const imageUrl = ref('')
 const error = ref('')
 const postFile = ref(null)
 const inputFile = ref(null)
+const router = useRouter()
 
 /**
  * 變更檔案事件
@@ -66,6 +68,7 @@ const submit = async () => {
     swal({
       title: '新增貼文成功'
     })
+    router.push({ name: 'Index' })
   } catch (e) {
     const message = getErrorContent(e.message)
     error.value = message

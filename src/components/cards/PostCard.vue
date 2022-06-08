@@ -14,10 +14,6 @@ const props = defineProps({
     required: true
   }
 })
-
-const loading = ref(false)
-const message = ref('')
-const { post } = toRefs(props)
 const emit = defineEmits([
   'post-like',
   'delete-like',
@@ -25,8 +21,16 @@ const emit = defineEmits([
   'delete-post',
   'delete-message'
 ])
+
+const loading = ref(false)
+const message = ref('')
+const { post } = toRefs(props)
+
 const isMe = computed(() => {
   return user.value._id === post.value.user._id
+})
+const isMeLiked = computed(() => {
+  return post.value.likes.some((item) => item === user.value._id)
 })
 
 /**
@@ -196,7 +200,7 @@ const clickDeleteMessageHandler = async (messageId) => {
       :src="post.image"
       alt="post image"
     />
-    <!-- 未按讚 -->
+    <!-- 尚未被未按讚 -->
     <button
       v-if="!post.likes.length"
       class="mt-4 text-xl leading-none text-gray-300"
@@ -207,13 +211,16 @@ const clickDeleteMessageHandler = async (messageId) => {
         >成為第一個按讚的朋友</span
       >
     </button>
-    <!-- 已按讚 -->
+    <!-- 已被按讚 -->
     <button
       v-else
       class="mt-4 text-xl leading-none text-primary"
       @click="clickLikeHandler"
     >
-      <i class="fa-regular fa-thumbs-up mr-1"></i>
+      <i
+        class="fa-thumbs-up mr-1"
+        :class="isMeLiked ? 'fas' : 'fa-regular'"
+      ></i>
       <span class="inline-block font-baloo leading-[22px] text-black-100">{{
         post.likes.length
       }}</span>

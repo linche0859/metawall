@@ -19,6 +19,7 @@ const props = defineProps({
     required: true
   }
 })
+
 const loading = ref(false)
 const posts = ref([])
 const router = useRouter()

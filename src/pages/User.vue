@@ -20,6 +20,13 @@ import PostCard from '@/components/cards/PostCard.vue'
 import EmptyPostCard from '@/components/cards/EmptyPostCard.vue'
 import Loader from '@/components/Loader.vue'
 
+const props = defineProps({
+  userId: {
+    type: String,
+    required: true
+  }
+})
+
 const userLoading = ref(false)
 const postLoading = ref(false)
 const scrollLoading = ref(false)
@@ -30,12 +37,6 @@ const tracks = ref([])
 const posts = ref([])
 const user = ref({})
 const pageMeta = ref({})
-const props = defineProps({
-  userId: {
-    type: String,
-    required: true
-  }
-})
 
 /**
  * 是否為自己
